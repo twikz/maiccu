@@ -156,7 +156,7 @@ static float vigourOfShake = 0.05f;
     [passwordProgress stopAnimation:nil];
     
     [tunnelChoise removeAllItems];
-    [tunnelInfoList removeAllObjects];
+    [tunnelInfoList removeAllObjects]; 
     
     if (!errorCode) {
         
