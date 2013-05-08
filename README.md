@@ -1,4 +1,4 @@
 Maiccu
 ======
 
-A Mac OS X GUI for aiccu
+Maiccu is a Mac OS X Gui client based on aiccu.
