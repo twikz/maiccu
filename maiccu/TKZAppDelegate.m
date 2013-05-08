@@ -17,7 +17,7 @@
     TKZAiccuAdapter *aiccu = [[TKZAiccuAdapter alloc] init];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    //clean pid file
+    //just in case remove the pid files 
     [fileManager removeItemAtPath:[aiccu aiccuDefaultPidFilePath] error:nil];
         
 }

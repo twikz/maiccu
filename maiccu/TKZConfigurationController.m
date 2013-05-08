@@ -11,12 +11,12 @@
 
 @interface TKZConfigurationController (){
 @private
-    BOOL isConcurrent;
-    NSString *password;
-    NSString *username;
-    NSString *tunnelid;
+    //BOOL isConcurrent;
+    NSString *password; //current username
+    NSString *username; //current password
+    NSString *tunnelid; //current tunnel_id
     TKZAiccuAdapter *aiccu;
-    NSMutableArray *tunnelInfoList;
+    NSMutableArray *tunnelInfoList; //current tunnel list (an array of NSDictionarys)
     BOOL isOpenedFirstTime;
 }
 - (CAKeyframeAnimation *)shakeAnimation:(NSRect)frame;
@@ -31,6 +31,7 @@ static float vigourOfShake = 0.05f;
 @implementation TKZConfigurationController
 @synthesize window=_window, popover=_popover;
 
+//the shake animation if user has entered wrong login credentials
 - (CAKeyframeAnimation *)shakeAnimation:(NSRect)frame
 {
     CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
@@ -52,7 +53,7 @@ static float vigourOfShake = 0.05f;
 - (id)init
 {
     if (self=[super init]) {
-        isConcurrent = NO;
+        //isConcurrent = NO;
         password = @"";
         username = @"";
         tunnelid = @"";
@@ -64,8 +65,11 @@ static float vigourOfShake = 0.05f;
     return self;
 }
 
-- (void)windowDidBecomeKey:(NSNotification *)notification {
 
+
+- (void)windowDidBecomeKey:(NSNotification *)notification {
+    
+    //if config window is opened the first time than try to login
     if (isOpenedFirstTime) {
         NSDictionary *config = [aiccu loadAiccuConfig];
         if (config) {
@@ -80,11 +84,14 @@ static float vigourOfShake = 0.05f;
     [infoButton setState:0];
 }
 
-//- (void) windowdid
 
-- (IBAction)clickLogin:(id)sender {    
-    if ( (!isConcurrent)
-        && !([password isEqualToString:[passwordField stringValue]])
+
+
+- (IBAction)clickLogin:(id)sender {
+    
+    //prevent ddos on tic server
+    if ( /*(!isConcurrent)
+        &&*/ !([password isEqualToString:[passwordField stringValue]])
         //&& !([username isEqualToString:[usernameField stringValue]])
         && !([[usernameField stringValue] isEqualToString:@""])
         && !([[passwordField stringValue] isEqualToString:@""])
@@ -94,11 +101,13 @@ static float vigourOfShake = 0.05f;
         password = [passwordField stringValue];
         username = [usernameField stringValue];
         
-        isConcurrent = YES;
+        //isConcurrent = YES;
         
         [usernameProgress startAnimation:nil];
         [passwordProgress startAnimation:nil];
         
+        
+        //disable all ui elememts while login is in progress
         [usernameCheck setHidden:YES];
         [passwordCheck setHidden:YES];
         
@@ -113,7 +122,9 @@ static float vigourOfShake = 0.05f;
         [[self popover] close];
         
         [tunnelChoise setEnabled:NO];
- 
+        
+        
+        
         [self performSelector:@selector(doLogin) withObject:nil afterDelay:0.0];
     }
 }
@@ -148,7 +159,8 @@ static float vigourOfShake = 0.05f;
     errorCode = [aiccu loginToTicServer:@"tic.sixxs.net" withUsername:username andPassword:password];
     
     
-    sleep(1); ///here is the login
+    ///only for test login functions
+    sleep(1);
     
     
     
@@ -182,6 +194,7 @@ static float vigourOfShake = 0.05f;
         if ([tunnelList count]) {            
             [tunnelChoise setEnabled:YES];
             
+            
             [tunnelChoise selectItemAtIndex:tunnelSelectIndex];
             [self choiseHasChanged:nil];
             
@@ -198,7 +211,10 @@ static float vigourOfShake = 0.05f;
         
         
     }
+    //if something went wrong
     else {
+        
+        //do shake animation
         [_window setAnimations:[NSDictionary dictionaryWithObject:[self shakeAnimation:[_window frame]] forKey:@"frameOrigin"]];
         [[_window animator] setFrameOrigin:[_window frame].origin];
         
@@ -206,6 +222,7 @@ static float vigourOfShake = 0.05f;
         [passwordField setEnabled:YES]; 
         [passwordField becomeFirstResponder]; //does not work if becomeFirstResponder comes before setEnable
         
+        //prevent the user from saving an invalid configuration
         [saveButton setEnabled:NO];
         [infoButton setEnabled:NO];
     }
@@ -216,15 +233,18 @@ static float vigourOfShake = 0.05f;
     [usernameField setEnabled:YES];
     [passwordField setEnabled:YES];
 
-    isConcurrent = NO;
+    //isConcurrent = NO;
 }
 
 - (IBAction)choiseHasChanged:(id)sender {
     
     NSDictionary *tunnelInfo = [tunnelInfoList objectAtIndex:[tunnelChoise indexOfSelectedItem]];
     
+    //set cuurent tunnel id
     tunnelid = [tunnelInfo objectForKey:@"id"];
     
+    
+    //set text in popup view
     [headField setStringValue:[NSString stringWithFormat:@"Tunnel %@", [tunnelInfo objectForKey:@"id"]]];
     [infoField setStringValue:[NSString stringWithFormat:
            @"Popid     : %@\n"
@@ -248,6 +268,9 @@ static float vigourOfShake = 0.05f;
 - (void)awakeFromNib
 {
     NSImage *checkMark = [NSImage imageNamed:@"checkmark.png"];
+    
+    
+    //set views with checkmark image
     
     NSImageView *chechMarkView1 = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, usernameCheck.bounds.size.width, usernameCheck.bounds.size.height)];
     [chechMarkView1 setImageScaling:NSScaleToFit];

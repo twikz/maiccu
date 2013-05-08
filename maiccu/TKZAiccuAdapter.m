@@ -343,9 +343,11 @@
 		return nil;
 	}
     
-	for (t = hsTunnel; t; t = t->next) //catch all tunnel(-id)s from server
+    
+    //catch all tunnel(-id)s from server
+	for (t = hsTunnel; t; t = t->next)
 	{
-		printf("%s %s %s %s\n", t->sId, t->sIPv6, t->sIPv4, t->sPOPId);
+		//printf("%s %s %s %s\n", t->sId, t->sIPv6, t->sIPv4, t->sPOPId);
         NSDictionary *tunnelInfo =  [NSDictionary dictionaryWithObjectsAndKeys:
                                     cstons(t->sId), @"id",
                                     cstons(t->sIPv6), @"ipv6",
@@ -353,7 +355,8 @@
                                     cstons(t->sPOPId), @"popid",
                                     nil];
         
-        [tunnels addObject:tunnelInfo]; //build an array of NSDictionarys
+        //build an array of NSDictionary
+        [tunnels addObject:tunnelInfo];
 	}
     
 	tic_Free_sTunnel(hsTunnel);
