@@ -58,7 +58,11 @@
 
 
 - (BOOL)saveAiccuConfig:(NSDictionary *)config {
-
+    NSFileManager *fileManger = [NSFileManager defaultManager];
+    
+    [fileManger createDirectoryAtPath:[[self appSupportDir] path] withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    
     g_aiccu = (struct AICCU_conf *)malloc(sizeof(struct AICCU_conf));
     memset(g_aiccu, 0, sizeof(struct AICCU_conf));
     
@@ -79,6 +83,8 @@
     g_aiccu->defaultroute = true;
     g_aiccu->noconfigure = false;
     
+    
+    
     if(!aiccu_SaveConfig(nstocs([self aiccuDefaultConfigPath])))
     {
         free(g_aiccu);
@@ -93,9 +99,12 @@
 
 
 - (BOOL)startAiccu {
-    //NSFileManager *fileManager = [NSFileManager defaultManager];
+   
     
-    //[fileManager removeItemAtPath:[self aiccuDefaultPidFilePath] error:nil];
+    
+    if (![self aiccuDefaultConfigExists]) {
+        return NO;
+    }
     
     if (/*[self aiccuDefaultPidFileExists] ||*/ isRunnging) { //dont't forget to clean on app startup
         return YES;

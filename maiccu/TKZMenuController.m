@@ -46,7 +46,10 @@
 }
 
 - (IBAction)menuQuit:(id)sender {
-    [aiccu stopAiccu];
+    if ([aiccu isRunnging]) {
+        [aiccu stopAiccu];
+    }
+    
     [NSApp terminate:nil];
     
 }
