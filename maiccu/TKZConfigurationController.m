@@ -167,6 +167,7 @@ static float vigourOfShake = 0.05f;
         NSUInteger tunnelSelectIndex = 0;
         for (NSDictionary *tunnel in tunnelList)
         {
+            //the behavior of "userstate: disabled" and "adminstate: requested" is not implemented yet
             
             [tunnelInfoList addObject:[aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
             

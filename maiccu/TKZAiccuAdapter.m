@@ -10,8 +10,11 @@
 #include "tic.h"
 #include "aiccu.h"
 
-#define cstons(__cstring__)  [NSString stringWithCString:__cstring__ encoding:NSUTF8StringEncoding]
+#define __cstons(__cstring__)  [NSString stringWithCString:__cstring__ encoding:NSUTF8StringEncoding]
+
 #define nstocs(__nsstring__) (char *)[__nsstring__ cStringUsingEncoding:NSUTF8StringEncoding]
+
+#define cstons(__cstring__)  [NSString stringWithCString:((__cstring__ != NULL) ?  __cstring__ : "") encoding:NSUTF8StringEncoding]
 
 @interface TKZAiccuAdapter ()
 - (NSURL *) appSupportDir;
@@ -376,7 +379,7 @@
     //struct TIC_conf	*tic;
     NSInteger errCode;
 
-    errCode = tic_Login(tic, nstocs(server), nstocs(username), nstocs(password));
+    errCode = tic_Login(tic, nstocs(username), nstocs(password), nstocs(server));
     
     if (errCode != true){ 
         NSLog(@"Error retrieving data from tic server!!!");
