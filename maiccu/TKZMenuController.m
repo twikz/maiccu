@@ -41,8 +41,7 @@
 - (IBAction)menuConfigure:(id)sender {
     
     [_window makeKeyAndOrderFront:sender];
-
-    
+    [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (IBAction)menuQuit:(id)sender {
@@ -50,7 +49,7 @@
         [aiccu stopAiccu];
     }
     
-    [NSApp terminate:nil];
+    [NSApp terminate:sender];
     
 }
 
