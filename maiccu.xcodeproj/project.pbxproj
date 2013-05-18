@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D4FFE8217459CF700E4E511 /* TKZDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4FFE8017459CF700E4E511 /* TKZDetailsController.m */; };
+		6D4FFE8317459CF700E4E511 /* TKZDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D4FFE8117459CF700E4E511 /* TKZDetailsController.xib */; };
+		6D4FFE871745C60900E4E511 /* TKZSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4FFE851745C60900E4E511 /* TKZSheetController.m */; };
+		6D4FFE881745C60900E4E511 /* TKZSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D4FFE861745C60900E4E511 /* TKZSheetController.xib */; };
 		6D77C32A173981840069047A /* aiccu in Resources */ = {isa = PBXBuildFile; fileRef = 6D77C329173981840069047A /* aiccu */; };
 		6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B39001735783E009C3AC7 /* aiccu_main.c */; };
 		6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */; };
@@ -49,6 +53,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D4FFE7F17459CF700E4E511 /* TKZDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZDetailsController.h; sourceTree = "<group>"; };
+		6D4FFE8017459CF700E4E511 /* TKZDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZDetailsController.m; sourceTree = "<group>"; };
+		6D4FFE8117459CF700E4E511 /* TKZDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKZDetailsController.xib; sourceTree = "<group>"; };
+		6D4FFE841745C60900E4E511 /* TKZSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZSheetController.h; sourceTree = "<group>"; };
+		6D4FFE851745C60900E4E511 /* TKZSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZSheetController.m; sourceTree = "<group>"; };
+		6D4FFE861745C60900E4E511 /* TKZSheetController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TKZSheetController.xib; sourceTree = "<group>"; };
 		6D77C329173981840069047A /* aiccu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = aiccu; sourceTree = "<group>"; };
 		6D8B39001735783E009C3AC7 /* aiccu_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aiccu_main.c; sourceTree = "<group>"; };
 		6D8B3902173578AD009C3AC7 /* aiccu_main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aiccu_main.h; sourceTree = "<group>"; };
@@ -179,6 +189,12 @@
 				6D949032173514E2002283B0 /* Supporting Files */,
 				6D94905F17351945002283B0 /* TKZMenuController.h */,
 				6D94906017351945002283B0 /* TKZMenuController.m */,
+				6D4FFE7F17459CF700E4E511 /* TKZDetailsController.h */,
+				6D4FFE8017459CF700E4E511 /* TKZDetailsController.m */,
+				6D4FFE841745C60900E4E511 /* TKZSheetController.h */,
+				6D4FFE851745C60900E4E511 /* TKZSheetController.m */,
+				6D4FFE861745C60900E4E511 /* TKZSheetController.xib */,
+				6D4FFE8117459CF700E4E511 /* TKZDetailsController.xib */,
 				6D8B390317357B1C009C3AC7 /* TKZAiccuAdapter.h */,
 				6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */,
 			);
@@ -323,6 +339,8 @@
 				6D949042173514E2002283B0 /* MainMenu.xib in Resources */,
 				6D8B39121736F1A9009C3AC7 /* checkmark.png in Resources */,
 				6D77C32A173981840069047A /* aiccu in Resources */,
+				6D4FFE8317459CF700E4E511 /* TKZDetailsController.xib in Resources */,
+				6D4FFE881745C60900E4E511 /* TKZSheetController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +392,8 @@
 				6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */,
 				6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */,
 				6D8B39081735CB90009C3AC7 /* TKZConfigurationController.m in Sources */,
+				6D4FFE8217459CF700E4E511 /* TKZDetailsController.m in Sources */,
+				6D4FFE871745C60900E4E511 /* TKZSheetController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

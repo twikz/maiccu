@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 @interface TKZAppDelegate : NSObject <NSApplicationDelegate> {
-@private
-    NSWindow *window;
+
+    
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (weak) IBOutlet NSMenu *menu;
 
-
-
+- (IBAction)clickedDetails:(id)sender;
+- (IBAction)clickedQuit:(id)sender;
 
 @end

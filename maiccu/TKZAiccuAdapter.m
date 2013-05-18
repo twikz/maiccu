@@ -77,7 +77,7 @@
     g_aiccu->requiretls = false;
     g_aiccu->verbose = false; //maybe true for debug
     g_aiccu->daemonize = true;
-    g_aiccu->behindnat = true; //only true for router with proto-41
+    g_aiccu->behindnat = [[config objectForKey:@"behindnat"] intValue]; //true; //only true for router with proto-41
     g_aiccu->pidfile = nstocs([self aiccuDefaultPidFilePath]);
     g_aiccu->makebeats = true;
     g_aiccu->defaultroute = true;
@@ -171,8 +171,11 @@
                             cstons(g_aiccu->username), @"username",
                             cstons(g_aiccu->password), @"password",
                             cstons(g_aiccu->tunnel_id), @"tunnel_id",
+                            [NSNumber numberWithInteger:(NSInteger)g_aiccu->behindnat], @"behindnat",
                             nil];
+    
     aiccu_FreeConfig();
+    
     return config;
 }
 
