@@ -9,10 +9,13 @@
 #import "TKZDetailsController.h"
 #import "TKZAiccuAdapter.h"
 #import "TKZSheetController.h"
+#import "TKZMaiccu.h"
+
 
 @interface TKZDetailsController () {
     NSMutableDictionary *_config;
     NSMutableArray *_tunnelInfoList;
+    TKZMaiccu *_maiccu;
 }
 -(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL;
 
@@ -26,6 +29,7 @@
     if (self) {
         _config = [[NSMutableDictionary alloc] init];
         _tunnelInfoList = [[NSMutableArray alloc] init];
+        _maiccu = [TKZMaiccu defaultMaiccu];
     }
     return self;
 }
@@ -89,7 +93,7 @@
     [_signupLabel setAttributedStringValue:[self hyperlinkFromString:@"No account yet? Signup on sixXS.net" withURL:[NSURL URLWithString:@"http://twikz.com"]]];
     
     
-    NSDictionary *config = [_aiccu loadAiccuConfig];
+    NSDictionary *config = [_aiccu loadAiccuConfigFile:[_maiccu aiccuConfigPath]];
     //config = nil;
     if (config) {
         [_usernameField setStringValue:[config objectForKey:@"username"]];
@@ -102,17 +106,11 @@
         [[self window] makeFirstResponder:_usernameField];
     }
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSURL *url = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *logURL = [url URLByAppendingPathComponent:@"Logs/Maiccu.log"];
-    
-    //[_logTextView setVerticallyResizable:NO];
-    //[_logTextView set];
     [[_logTextView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
     [[_logTextView textContainer] setWidthTracksTextView:NO];
     [_logTextView setHorizontallyResizable:YES];
-    [_logTextView setString:[NSString stringWithContentsOfFile:[logURL path] encoding:NSUTF8StringEncoding error:nil]];
+    [_logTextView setString:[NSString stringWithContentsOfFile:[_maiccu maiccuLogPath] encoding:NSUTF8StringEncoding error:nil]];
     
 }
 
@@ -325,10 +323,8 @@
 - (IBAction)clearWasClicked:(id)sender {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSURL *url = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    NSURL *logURL = [url URLByAppendingPathComponent:@"Logs/Maiccu.log"];
-    [fileManager removeItemAtPath:[logURL path] error:nil];
-    [fileManager createFileAtPath:[logURL path] contents:[NSData data] attributes:nil];
+    [fileManager removeItemAtPath:[_maiccu maiccuLogPath] error:nil];
+    [fileManager createFileAtPath:[_maiccu maiccuLogPath] contents:[NSData data] attributes:nil];
 }
 
 - (IBAction)infoWasClicked:(id)sender {
@@ -343,11 +339,11 @@
 - (void)windowWillClose:(NSNotification *)notification {
     if ([_config count]) {
         NSLog(@"saving aiccu config");
-        [_aiccu saveAiccuConfig:_config];
+        [_aiccu saveAiccuConfig:_config toFile:[_maiccu aiccuConfigPath]];
     }
     else {
         NSLog(@"deleting aiccu config");
-        [[NSFileManager defaultManager] removeItemAtPath:[_aiccu aiccuDefaultConfigPath] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[_maiccu aiccuConfigPath] error:nil];
     }
 }
 

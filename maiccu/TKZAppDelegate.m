@@ -15,9 +15,9 @@
 @interface TKZAppDelegate () {
     NSStatusItem *_statusItem;
     TKZAiccuAdapter *_aiccu;
+    TKZMaiccu *_maiccu;
     TKZDetailsController *_detailsController;
     BOOL _isAiccuRunning;
-    NSURL *_logURL;
 }
 
 @end
@@ -27,10 +27,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     //
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    NSURL *url = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    _logURL = [url URLByAppendingPathComponent:@"Logs/Maiccu.log"];
     
     /*NSDictionary *dict = [fileManager attributesOfItemAtPath:@"/Users/kristof/Downloads/testomat/aiccu" error:nil];
     for (id key in dict) {
@@ -50,33 +46,12 @@
     
     //[_logFileHandle writeData:[@"Es geht los" dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [self writeLogMessage:@"Maiccu did finish launching"];
+    [_maiccu writeLogMessage:@"Maiccu did finish launching"];
 }
 
-- (void)writeLogMessage:(NSString *)logMessage {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if (![fileManager fileExistsAtPath:[_logURL path]] ) {
-        [fileManager createFileAtPath:[_logURL path] contents:[NSData data] attributes:nil];
-    }
-    
-    NSFileHandle *logFileHandle = [NSFileHandle fileHandleForWritingAtPath:[_logURL path]];
-    [logFileHandle seekToFileOffset:[logFileHandle seekToEndOfFile]];
-    NSString *timeStamp = [[NSDate date] descriptionWithLocale:[NSLocale systemLocale]];
-    
-    NSArray *messages = [logMessage componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n\r"]];
-    for (NSString *message in messages) {
-        if (![message isEqualToString:@""]) {
-            NSString *formatedMessage = [NSString stringWithFormat:@"[%@] %@\n", timeStamp, message];
-            [logFileHandle writeData:[formatedMessage dataUsingEncoding:NSUTF8StringEncoding]];
-        }
-    }
-    
-    [logFileHandle closeFile];
-}
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
-    [self writeLogMessage:@"Maiccu will terminate"];
+    [_maiccu writeLogMessage:@"Maiccu will terminate"];
 }
 
 - (id)init
@@ -94,19 +69,21 @@
         
         _isAiccuRunning = NO;
         
+        _maiccu = [TKZMaiccu defaultMaiccu];
+        
     }
     return self;
 }
 
 - (void)aiccuDidTerminate:(NSNotification *)aNotification {
-    [self writeLogMessage:[NSString stringWithFormat:@"aiccu terminated with status %li", [[aNotification object] integerValue]]];
+    [_maiccu writeLogMessage:[NSString stringWithFormat:@"aiccu terminated with status %li", [[aNotification object] integerValue]]];
     [self postNotification:[NSString stringWithFormat:@"aiccu terminated with status %li", [[aNotification object] integerValue]]];
     _isAiccuRunning = NO;
     [_startstopItem setTitle:@"Start aiccu"];
 }
 
 - (void)aiccuNotification:(NSNotification *)aNotification {
-    [self writeLogMessage:[aNotification object]];
+    [_maiccu writeLogMessage:[aNotification object]];
     [self postNotification:[aNotification object]];
 }
 
@@ -141,6 +118,6 @@
 - (IBAction)startstopWasClicked:(id)sender {
     _isAiccuRunning = YES;
     [_startstopItem setTitle:@"Stop aiccu"];
-    [_aiccu startStopAiccu];
+    [_aiccu startStopAiccuFrom:@"/Users/kristof/Downloads/testomat/aiccu"];
 }
 @end

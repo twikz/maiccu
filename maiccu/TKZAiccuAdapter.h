@@ -28,21 +28,10 @@ extern NSString * const TKZAiccuStatus;
 - (NSArray *)requestTunnelList;
 - (NSDictionary *)requestTunnelInfoForTunnel:(NSString *)tunnel;
 
-- (NSDictionary *)loadAiccuConfig;
-- (BOOL)saveAiccuConfig:(NSDictionary *)config;
+- (BOOL)saveAiccuConfig:(NSDictionary *)config toFile:(NSString *)path;
+- (NSDictionary *)loadAiccuConfigFile:(NSString *)path;
 
-- (BOOL) aiccuDefaultConfigExists;
-- (NSString *) aiccuDefaultConfigPath;
-
-- (NSString *)aiccuDefaultPidFilePath;
-- (BOOL) aiccuDefaultPidFileExists;
-
-- (NSString *)aiccuDefaultPath;
-
-- (NSString *)aiccuDefaultLogFilePath;
-- (BOOL) aiccuDefaultLogFileExists;
-
-- (void)startStopAiccu;
+- (void)startStopAiccuFrom:(NSString *)path;
 
 
 //testmethods

@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface TKZMaiccu : NSObject 
+- (NSString *) aiccuConfigPath;
+- (BOOL) aiccuConfigExists;
+
+- (NSString *)aiccuPath;
+
+- (NSString *)maiccuLogPath;
+- (BOOL) maiccuLogExists;
+
+- (void)writeLogMessage:(NSString *)logMessage;
 
 + (id)defaultMaiccu;
 @end

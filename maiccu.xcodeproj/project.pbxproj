@@ -14,7 +14,6 @@
 		6D77C32A173981840069047A /* aiccu in Resources */ = {isa = PBXBuildFile; fileRef = 6D77C329173981840069047A /* aiccu */; };
 		6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B39001735783E009C3AC7 /* aiccu_main.c */; };
 		6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */; };
-		6D8B39081735CB90009C3AC7 /* TKZConfigurationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B39071735CB90009C3AC7 /* TKZConfigurationController.m */; };
 		6D8B390A1736E3DE009C3AC7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */; };
 		6D8B39121736F1A9009C3AC7 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8B39111736F1A9009C3AC7 /* checkmark.png */; };
 		6D94902C173514E2002283B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94902B173514E2002283B0 /* Cocoa.framework */; };
@@ -80,8 +79,6 @@
 		6D8B3902173578AD009C3AC7 /* aiccu_main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aiccu_main.h; sourceTree = "<group>"; };
 		6D8B390317357B1C009C3AC7 /* TKZAiccuAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZAiccuAdapter.h; sourceTree = "<group>"; };
 		6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZAiccuAdapter.m; sourceTree = "<group>"; };
-		6D8B39061735CB90009C3AC7 /* TKZConfigurationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZConfigurationController.h; sourceTree = "<group>"; };
-		6D8B39071735CB90009C3AC7 /* TKZConfigurationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZConfigurationController.m; sourceTree = "<group>"; };
 		6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6D8B39111736F1A9009C3AC7 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
 		6D949028173514E2002283B0 /* maiccu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maiccu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,8 +204,6 @@
 				6D9A46461749E024008389B4 /* TKZMaiccu.h */,
 				6D9A46471749E024008389B4 /* TKZMaiccu.m */,
 				6D949040173514E2002283B0 /* MainMenu.xib */,
-				6D8B39061735CB90009C3AC7 /* TKZConfigurationController.h */,
-				6D8B39071735CB90009C3AC7 /* TKZConfigurationController.m */,
 				6D949032173514E2002283B0 /* Supporting Files */,
 				6D4FFE7F17459CF700E4E511 /* TKZDetailsController.h */,
 				6D4FFE8017459CF700E4E511 /* TKZDetailsController.m */,
@@ -413,7 +408,6 @@
 				6D9490C117352725002283B0 /* tun.c in Sources */,
 				6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */,
 				6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */,
-				6D8B39081735CB90009C3AC7 /* TKZConfigurationController.m in Sources */,
 				6D4FFE8217459CF700E4E511 /* TKZDetailsController.m in Sources */,
 				6D4FFE871745C60900E4E511 /* TKZSheetController.m in Sources */,
 				6D9A46481749E024008389B4 /* TKZMaiccu.m in Sources */,

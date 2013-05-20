@@ -16,10 +16,6 @@
 
 #define cstons(__cstring__)  [NSString stringWithCString:((__cstring__ != NULL) ?  __cstring__ : "") encoding:NSUTF8StringEncoding]
 
-@interface TKZAiccuAdapter ()
-- (NSURL *) appSupportDir;
-@end
-
 
 NSString * const TKZAiccuDidTerminate = @"AiccuDidTerminate";
 NSString * const TKZAiccuStatus = @"AiccuStatus";
@@ -42,11 +38,11 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 }
 
 
-- (BOOL)saveAiccuConfig:(NSDictionary *)config {
+- (BOOL)saveAiccuConfig:(NSDictionary *)config toFile:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    [fileManager createDirectoryAtPath:[[self appSupportDir] path] withIntermediateDirectories:YES attributes:nil error:nil];
-    
+    NSURL *url = [[NSURL URLWithString:path] URLByDeletingLastPathComponent];
+    [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:nil];
     
     g_aiccu = (struct AICCU_conf *)malloc(sizeof(struct AICCU_conf));
     memset(g_aiccu, 0, sizeof(struct AICCU_conf));
@@ -62,15 +58,15 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     g_aiccu->requiretls = false;
     g_aiccu->verbose = false; //maybe true for debug
     g_aiccu->daemonize = true;
-    g_aiccu->behindnat = [[config objectForKey:@"behindnat"] intValue]; //true; //only true for router with proto-41
-    g_aiccu->pidfile = nstocs([self aiccuDefaultPidFilePath]);
+    g_aiccu->behindnat = [[config objectForKey:@"behindnat"] intValue]; 
+    g_aiccu->pidfile = nstocs(@"#pidfile");
     g_aiccu->makebeats = true;
     g_aiccu->defaultroute = true;
     g_aiccu->noconfigure = false;
     
     
     
-    if(!aiccu_SaveConfig(nstocs([self aiccuDefaultConfigPath])))
+    if(!aiccu_SaveConfig(nstocs(path)))
     {
         free(g_aiccu);
         return NO;
@@ -83,11 +79,11 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 
 
 
-- (NSDictionary *)loadAiccuConfig {
+- (NSDictionary *)loadAiccuConfigFile:(NSString *)path {
     //
     g_aiccu = NULL;
     aiccu_InitConfig();
-    if (!aiccu_LoadConfig(nstocs([self aiccuDefaultConfigPath])) ){
+    if (!aiccu_LoadConfig(nstocs(path)) ){
         NSLog(@"Unable to load aiccu config file");
         aiccu_FreeConfig();
         return nil;
@@ -105,44 +101,6 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     return config;
 }
 
-- (NSURL *) appSupportDir {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *appSupportURL = [[fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
-    return [appSupportURL URLByAppendingPathComponent:@"Maiccu"];
-}
-
-- (NSString *)aiccuDefaultPath {
-    return [[NSBundle mainBundle] pathForResource:@"aiccu" ofType:@""];
-}
-
-- (NSString *)aiccuDefaultPidFilePath {
-    return [[[self appSupportDir] URLByAppendingPathComponent:@"aiccu.pid"] path];
-}
-
-- (NSString *)aiccuDefaultLogFilePath {
-    return [[[self appSupportDir] URLByAppendingPathComponent:@"aiccu.log"] path];
-}
-
-- (BOOL) aiccuDefaultLogFileExists {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    return [fileManager fileExistsAtPath:[self aiccuDefaultPidFilePath]];
-}
-
-- (BOOL) aiccuDefaultPidFileExists {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    return [fileManager fileExistsAtPath:[self aiccuDefaultPidFilePath]];
-}
-
-
-- (BOOL) aiccuDefaultConfigExists {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    return [fileManager fileExistsAtPath:[self aiccuDefaultConfigPath]];
-}
-
-- (NSString *) aiccuDefaultConfigPath {
-    return [[[self appSupportDir] URLByAppendingPathComponent:@"aiccu.conf"] path];
-}
 
 - (NSDictionary *)requestTunnelInfoForTunnel:(NSString *)tunnel {
     struct TIC_Tunnel *hTunnel;
@@ -317,7 +275,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     NSLog(@"Logout from tic server");
 }
 
-- (void)startStopAiccu
+- (void)startStopAiccuFrom:(NSString *)path
 {
     // Is the task running?
     if (_task) {
@@ -331,7 +289,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
         
         //_status = [[NSMutableString alloc] init];
         _task = [[NSTask alloc] init];
-        [_task setLaunchPath:@"/Users/kristof/Downloads/testomat/aiccu"];
+        [_task setLaunchPath:path];
         NSArray *args = [NSArray arrayWithObjects: @"start", nil];
 		[_task setArguments:args];
 		

@@ -46,12 +46,13 @@ static TKZMaiccu *defaultMaiccu = nil;
 }
 
 
-- (NSString *)aiccuLogFilePath {
-    return [[[self appSupportURL] URLByAppendingPathComponent:@"aiccu.log"] path];
+- (NSString *)maiccuLogPath {
+    NSURL *url = [[_fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[url URLByAppendingPathComponent:@"Logs/Maiccu.log"] path];
 }
 
-- (BOOL) aiccuLogFileExists {
-    return [_fileManager fileExistsAtPath:[self aiccuLogFilePath]];
+- (BOOL) maiccuLogExists {
+    return [_fileManager fileExistsAtPath:[self maiccuLogPath]];
 }
 
 
@@ -62,5 +63,28 @@ static TKZMaiccu *defaultMaiccu = nil;
 - (NSString *) aiccuConfigPath {
     return [[[self appSupportURL] URLByAppendingPathComponent:@"aiccu.conf"] path];
 }
+
+- (void)writeLogMessage:(NSString *)logMessage {    
+    if (![self maiccuLogExists] ) {
+        [_fileManager createFileAtPath:[self maiccuLogPath] contents:[NSData data] attributes:nil];
+    }
+    
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:[self maiccuLogPath]];
+    [fileHandle seekToEndOfFile];
+    
+    NSString *timeStamp = [[NSDate date] descriptionWithLocale:[NSLocale systemLocale]];
+    
+    NSArray *messages = [logMessage componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n\r"]];
+    
+    for (NSString *message in messages) {
+        if (![message isEqualToString:@""]) {
+            NSString *formatedMessage = [NSString stringWithFormat:@"[%@] %@\n", timeStamp, message];
+            [fileHandle writeData:[formatedMessage dataUsingEncoding:NSUTF8StringEncoding]];
+        }
+    }
+    
+    [fileHandle closeFile];
+}
+
 
 @end
