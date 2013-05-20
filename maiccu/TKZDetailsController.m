@@ -90,7 +90,7 @@
     
     [_signupLabel setAllowsEditingTextAttributes:YES];
     [_signupLabel setSelectable:YES];
-    [_signupLabel setAttributedStringValue:[self hyperlinkFromString:@"No account yet? Signup on sixXS.net" withURL:[NSURL URLWithString:@"http://twikz.com"]]];
+    [_signupLabel setAttributedStringValue:[self hyperlinkFromString:@"No account yet? Signup on sixXS.net" withURL:[NSURL URLWithString:@"http://www.sixxs.net"]]];
     
     
     NSDictionary *config = [_aiccu loadAiccuConfigFile:[_maiccu aiccuConfigPath]];
@@ -111,7 +111,6 @@
     [[_logTextView textContainer] setWidthTracksTextView:NO];
     [_logTextView setHorizontallyResizable:YES];
     [_logTextView setString:[NSString stringWithContentsOfFile:[_maiccu maiccuLogPath] encoding:NSUTF8StringEncoding error:nil]];
-    
 }
 
 - (void)doLogin {
@@ -325,6 +324,11 @@
     
     [fileManager removeItemAtPath:[_maiccu maiccuLogPath] error:nil];
     [fileManager createFileAtPath:[_maiccu maiccuLogPath] contents:[NSData data] attributes:nil];
+    [self reloadWasClicked:sender];
+}
+
+- (IBAction)reloadWasClicked:(id)sender {
+    [_logTextView setString:[NSString stringWithContentsOfFile:[_maiccu maiccuLogPath] encoding:NSUTF8StringEncoding error:nil]];
 }
 
 - (IBAction)infoWasClicked:(id)sender {

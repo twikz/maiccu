@@ -275,7 +275,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     NSLog(@"Logout from tic server");
 }
 
-- (void)startStopAiccuFrom:(NSString *)path
+- (void)startStopAiccuFrom:(NSString *)path withConfigFile:(NSString *)configPath
 {
     // Is the task running?
     if (_task) {
@@ -290,7 +290,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
         //_status = [[NSMutableString alloc] init];
         _task = [[NSTask alloc] init];
         [_task setLaunchPath:path];
-        NSArray *args = [NSArray arrayWithObjects: @"start", nil];
+        NSArray *args = [NSArray arrayWithObjects: @"start", configPath, nil];
 		[_task setArguments:args];
 		
 		// Create a new pipe

@@ -80,6 +80,7 @@ static TKZMaiccu *defaultMaiccu = nil;
         if (![message isEqualToString:@""]) {
             NSString *formatedMessage = [NSString stringWithFormat:@"[%@] %@\n", timeStamp, message];
             [fileHandle writeData:[formatedMessage dataUsingEncoding:NSUTF8StringEncoding]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TKZMaiccuLog" object:formatedMessage];
         }
     }
     

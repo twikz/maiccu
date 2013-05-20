@@ -27,24 +27,39 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     //
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+       
+    NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:[_maiccu aiccuPath] error:nil];
+    NSString *oktalPermissions = [NSString stringWithFormat:@"%lo", [[fileAttributes objectForKey:NSFilePosixPermissions] integerValue]];
     
-    /*NSDictionary *dict = [fileManager attributesOfItemAtPath:@"/Users/kristof/Downloads/testomat/aiccu" error:nil];
-    for (id key in dict) {
-        NSLog(@"%@ -> %@", key, [dict objectForKey:key]);
+    if (![oktalPermissions isEqualToString:@"6755"] ||
+        [[fileAttributes objectForKey:NSFileOwnerAccountID] integerValue] ||
+        [[fileAttributes objectForKey:NSFileGroupOwnerAccountID] integerValue]
+        ) {
+        
+        NSDictionary *error = [NSDictionary new];
+        NSString *shellCmd = [NSString stringWithFormat:@"chmod 6755 \'%@\'; chown root:wheel \'%@\'", [_maiccu aiccuPath], [_maiccu aiccuPath]];
+        NSString *script =  [NSString  stringWithFormat:@"do shell script \"%@\" with administrator privileges", shellCmd];;
+        NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script];
+        if ([appleScript executeAndReturnError:&error]) {
+            //NSLog(@"successfully changed file permissions");
+            
+        } else {
+            [_maiccu writeLogMessage:@"Unable to set file permissions"];
+            [[NSApplication sharedApplication] terminate:nil];
+        }
     }
-    NSLog(@"%lo",[[dict objectForKey:NSFilePosixPermissions] integerValue]);
-    NSLog(@"%@",[[dict objectForKey:NSFilePosixPermissions] className]);
-    NSLog(@"%@",[NSFilePosixPermissions className]);
-    NSLog(@"%@",[[NSString string] className]);*/
     
-    /*if (![fileManager fileExistsAtPath:[_logURL path]] ) {
-        [fileManager createFileAtPath:[_logURL path] contents:[NSData data] attributes:nil];
+    if (![fileManager fileExistsAtPath:@"/dev/tun0"]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setMessageText:@"Please install the latest TUN/TAP drivers"];
+        [alert addButtonWithTitle:@"Go to website"];
+        [alert runModal];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://tuntaposx.sourceforge.net/download.xhtml"]];
+        [[NSApplication sharedApplication] terminate:nil];
     }
-    
-    _logFileHandle = [NSFileHandle fileHandleForWritingAtPath:[_logURL path]];
-    [_logFileHandle seekToFileOffset:[_logFileHandle seekToEndOfFile]];*/
-    
-    //[_logFileHandle writeData:[@"Es geht los" dataUsingEncoding:NSUTF8StringEncoding]];
+
     
     [_maiccu writeLogMessage:@"Maiccu did finish launching"];
 }
@@ -52,6 +67,8 @@
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
     [_maiccu writeLogMessage:@"Maiccu will terminate"];
+    if (_isAiccuRunning)
+        [self startstopWasClicked:nil];
 }
 
 - (id)init
@@ -116,8 +133,10 @@
 }
 
 - (IBAction)startstopWasClicked:(id)sender {
+    if (![_maiccu aiccuConfigExists] && !_isAiccuRunning)
+        return;
     _isAiccuRunning = YES;
     [_startstopItem setTitle:@"Stop aiccu"];
-    [_aiccu startStopAiccuFrom:@"/Users/kristof/Downloads/testomat/aiccu"];
+    [_aiccu startStopAiccuFrom:[_maiccu aiccuPath] withConfigFile:[_maiccu aiccuConfigPath]];
 }
 @end

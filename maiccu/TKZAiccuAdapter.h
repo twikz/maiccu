@@ -31,7 +31,7 @@ extern NSString * const TKZAiccuStatus;
 - (BOOL)saveAiccuConfig:(NSDictionary *)config toFile:(NSString *)path;
 - (NSDictionary *)loadAiccuConfigFile:(NSString *)path;
 
-- (void)startStopAiccuFrom:(NSString *)path;
+- (void)startStopAiccuFrom:(NSString *)path withConfigFile:(NSString *)configPath;
 
 
 //testmethods
