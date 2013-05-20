@@ -14,7 +14,6 @@
 		6D77C32A173981840069047A /* aiccu in Resources */ = {isa = PBXBuildFile; fileRef = 6D77C329173981840069047A /* aiccu */; };
 		6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B39001735783E009C3AC7 /* aiccu_main.c */; };
 		6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */; };
-		6D8B390A1736E3DE009C3AC7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */; };
 		6D94902C173514E2002283B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94902B173514E2002283B0 /* Cocoa.framework */; };
 		6D949036173514E2002283B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D949034173514E2002283B0 /* InfoPlist.strings */; };
 		6D949038173514E2002283B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D949037173514E2002283B0 /* main.m */; };
@@ -78,7 +77,6 @@
 		6D8B3902173578AD009C3AC7 /* aiccu_main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aiccu_main.h; sourceTree = "<group>"; };
 		6D8B390317357B1C009C3AC7 /* TKZAiccuAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZAiccuAdapter.h; sourceTree = "<group>"; };
 		6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZAiccuAdapter.m; sourceTree = "<group>"; };
-		6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6D949028173514E2002283B0 /* Maiccu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maiccu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D94902B173514E2002283B0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D94902E173514E2002283B0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -130,7 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D8B390A1736E3DE009C3AC7 /* QuartzCore.framework in Frameworks */,
 				6D9490C5173538A7002283B0 /* libresolv.9.dylib in Frameworks */,
 				6D94902C173514E2002283B0 /* Cocoa.framework in Frameworks */,
 				6D9A463E174938DA008389B4 /* Growl.framework in Frameworks */,
@@ -174,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				6D9490C4173538A7002283B0 /* libresolv.9.dylib */,
-				6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */,
 				6D9A463D174938DA008389B4 /* Growl.framework */,
 				6D94902B173514E2002283B0 /* Cocoa.framework */,
 				6D949049173514E2002283B0 /* SenTestingKit.framework */,

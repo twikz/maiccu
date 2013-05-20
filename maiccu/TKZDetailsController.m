@@ -267,10 +267,12 @@
     if (!error) {
         
         [_natCheckBox setState:1];
+        [_config setObject:[NSNumber numberWithInteger:1] forKey:@"behindnat"];
         for (NSString *address in [[NSHost currentHost] addresses]) {
             if ([extAddress isEqualToString:address]) {
                 //
                 [_natCheckBox setState:0];
+                [_config setObject:[NSNumber numberWithInteger:0] forKey:@"behindnat"];
                 break;
             }
         }
