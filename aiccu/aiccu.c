@@ -27,8 +27,9 @@ struct pl_rule aiccu_conf_rules[] =
 	{"local_ipv4_override",	PLRT_STRING,	offsetof(struct AICCU_conf, local_ipv4_override)},
 
 	/* Post Setup script path */
+#ifndef AICCU_PATCH
 	{"setupscript",		PLRT_STRING,	offsetof(struct AICCU_conf, setupscript)},
-
+#endif
 	/* Automatic */
 	{"automatic",		PLRT_BOOL,	offsetof(struct AICCU_conf, automatic)},
 
@@ -213,7 +214,9 @@ bool aiccu_SaveConfig(const char *filename)
 	fprintf(f, "automatic %s\n", g_aiccu->automatic ? "true" : "false");
 	fprintf(f, "\n");
 	fprintf(f, "# Script to run after setting up the interfaces (default: none)\n");
+#ifndef AICCU_PATCH
 	fprintf(f, "%ssetupscript %s\n", g_aiccu->setupscript ? "" : "#", g_aiccu->setupscript ? g_aiccu->setupscript : "<path>");
+#endif
 	fprintf(f, "\n");
 	fprintf(f, "# TLS Required?\n");
 	fprintf(f, "requiretls %s\n", g_aiccu->requiretls ? "true" : "false");
