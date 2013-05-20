@@ -48,6 +48,13 @@
 @property (weak) IBOutlet NSTextField *tunnelInfoField;
 @property (strong) IBOutlet NSPopover *tunnelPopOver;
 
+
+
+@property (unsafe_unretained) IBOutlet NSTextView *logTextView;
+- (IBAction)clearWasClicked:(id)sender;
+
+
+
 - (IBAction)infoWasClicked:(id)sender;
 - (IBAction)tunnelPopUpHasChanged:(id)sender;
 - (IBAction)natCheckBoxDidChange:(id)sender;

@@ -27,7 +27,6 @@
 		6D94904B173514E2002283B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94902B173514E2002283B0 /* Cocoa.framework */; };
 		6D949053173514E2002283B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D949051173514E2002283B0 /* InfoPlist.strings */; };
 		6D949056173514E2002283B0 /* maiccuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D949055173514E2002283B0 /* maiccuTests.m */; };
-		6D94906117351945002283B0 /* TKZMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D94906017351945002283B0 /* TKZMenuController.m */; };
 		6D9490B017352725002283B0 /* aiccu.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D94909517352725002283B0 /* aiccu.c */; };
 		6D9490B217352725002283B0 /* aiccu_darwin.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D94909817352725002283B0 /* aiccu_darwin.c */; };
 		6D9490B917352725002283B0 /* aiccu_test.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D94909F17352725002283B0 /* aiccu_test.c */; };
@@ -40,6 +39,10 @@
 		6D9490C017352725002283B0 /* tic.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9490AC17352725002283B0 /* tic.c */; };
 		6D9490C117352725002283B0 /* tun.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D9490AE17352725002283B0 /* tun.c */; };
 		6D9490C5173538A7002283B0 /* libresolv.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9490C4173538A7002283B0 /* libresolv.9.dylib */; };
+		6D9A463E174938DA008389B4 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9A463D174938DA008389B4 /* Growl.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		6D9A464017493B75008389B4 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6D9A463D174938DA008389B4 /* Growl.framework */; };
+		6D9A46451749445E008389B4 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 6D9A46441749445E008389B4 /* Growl Registration Ticket.growlRegDict */; };
+		6D9A46481749E024008389B4 /* TKZMaiccu.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9A46471749E024008389B4 /* TKZMaiccu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,19 @@
 			remoteInfo = maiccu;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6D9A463F17493AE2008389B4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6D9A464017493B75008389B4 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6D4FFE7F17459CF700E4E511 /* TKZDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZDetailsController.h; sourceTree = "<group>"; };
@@ -87,8 +103,6 @@
 		6D949052173514E2002283B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6D949054173514E2002283B0 /* maiccuTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maiccuTests.h; sourceTree = "<group>"; };
 		6D949055173514E2002283B0 /* maiccuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = maiccuTests.m; sourceTree = "<group>"; };
-		6D94905F17351945002283B0 /* TKZMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZMenuController.h; sourceTree = "<group>"; };
-		6D94906017351945002283B0 /* TKZMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZMenuController.m; sourceTree = "<group>"; };
 		6D94909517352725002283B0 /* aiccu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aiccu.c; sourceTree = "<group>"; };
 		6D94909617352725002283B0 /* aiccu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiccu.h; sourceTree = "<group>"; };
 		6D94909817352725002283B0 /* aiccu_darwin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aiccu_darwin.c; sourceTree = "<group>"; };
@@ -110,6 +124,10 @@
 		6D9490AE17352725002283B0 /* tun.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tun.c; sourceTree = "<group>"; };
 		6D9490AF17352725002283B0 /* tun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tun.h; sourceTree = "<group>"; };
 		6D9490C4173538A7002283B0 /* libresolv.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.9.dylib; path = usr/lib/libresolv.9.dylib; sourceTree = SDKROOT; };
+		6D9A463D174938DA008389B4 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		6D9A46441749445E008389B4 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		6D9A46461749E024008389B4 /* TKZMaiccu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZMaiccu.h; sourceTree = "<group>"; };
+		6D9A46471749E024008389B4 /* TKZMaiccu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZMaiccu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +138,7 @@
 				6D8B390A1736E3DE009C3AC7 /* QuartzCore.framework in Frameworks */,
 				6D9490C5173538A7002283B0 /* libresolv.9.dylib in Frameworks */,
 				6D94902C173514E2002283B0 /* Cocoa.framework in Frameworks */,
+				6D9A463E174938DA008389B4 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,9 +157,8 @@
 		6D94901F173514E1002283B0 = {
 			isa = PBXGroup;
 			children = (
-				6D9490C4173538A7002283B0 /* libresolv.9.dylib */,
+				6D9A46441749445E008389B4 /* Growl Registration Ticket.growlRegDict */,
 				6D8B39111736F1A9009C3AC7 /* checkmark.png */,
-				6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */,
 				6D94909417352725002283B0 /* aiccu */,
 				6D949031173514E2002283B0 /* maiccu */,
 				6D94904E173514E2002283B0 /* maiccuTests */,
@@ -161,6 +179,9 @@
 		6D94902A173514E2002283B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D9490C4173538A7002283B0 /* libresolv.9.dylib */,
+				6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */,
+				6D9A463D174938DA008389B4 /* Growl.framework */,
 				6D94902B173514E2002283B0 /* Cocoa.framework */,
 				6D949049173514E2002283B0 /* SenTestingKit.framework */,
 				6D94902D173514E2002283B0 /* Other Frameworks */,
@@ -183,12 +204,12 @@
 			children = (
 				6D94903D173514E2002283B0 /* TKZAppDelegate.h */,
 				6D94903E173514E2002283B0 /* TKZAppDelegate.m */,
+				6D9A46461749E024008389B4 /* TKZMaiccu.h */,
+				6D9A46471749E024008389B4 /* TKZMaiccu.m */,
 				6D949040173514E2002283B0 /* MainMenu.xib */,
 				6D8B39061735CB90009C3AC7 /* TKZConfigurationController.h */,
 				6D8B39071735CB90009C3AC7 /* TKZConfigurationController.m */,
 				6D949032173514E2002283B0 /* Supporting Files */,
-				6D94905F17351945002283B0 /* TKZMenuController.h */,
-				6D94906017351945002283B0 /* TKZMenuController.m */,
 				6D4FFE7F17459CF700E4E511 /* TKZDetailsController.h */,
 				6D4FFE8017459CF700E4E511 /* TKZDetailsController.m */,
 				6D4FFE841745C60900E4E511 /* TKZSheetController.h */,
@@ -272,6 +293,7 @@
 				6D949024173514E2002283B0 /* Sources */,
 				6D949025173514E2002283B0 /* Frameworks */,
 				6D949026173514E2002283B0 /* Resources */,
+				6D9A463F17493AE2008389B4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -341,6 +363,7 @@
 				6D77C32A173981840069047A /* aiccu in Resources */,
 				6D4FFE8317459CF700E4E511 /* TKZDetailsController.xib in Resources */,
 				6D4FFE881745C60900E4E511 /* TKZSheetController.xib in Resources */,
+				6D9A46451749445E008389B4 /* Growl Registration Ticket.growlRegDict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +400,6 @@
 			files = (
 				6D949038173514E2002283B0 /* main.m in Sources */,
 				6D94903F173514E2002283B0 /* TKZAppDelegate.m in Sources */,
-				6D94906117351945002283B0 /* TKZMenuController.m in Sources */,
 				6D9490B017352725002283B0 /* aiccu.c in Sources */,
 				6D9490B217352725002283B0 /* aiccu_darwin.c in Sources */,
 				6D9490B917352725002283B0 /* aiccu_test.c in Sources */,
@@ -394,6 +416,7 @@
 				6D8B39081735CB90009C3AC7 /* TKZConfigurationController.m in Sources */,
 				6D4FFE8217459CF700E4E511 /* TKZDetailsController.m in Sources */,
 				6D4FFE871745C60900E4E511 /* TKZSheetController.m in Sources */,
+				6D9A46481749E024008389B4 /* TKZMaiccu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,9 +509,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -513,8 +536,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = macosx;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -522,6 +545,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Downloads/Growl-2.0.1-SDK/Framework\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maiccu/maiccu-Prefix.pch";
 				INFOPLIST_FILE = "maiccu/maiccu-Info.plist";
@@ -534,6 +562,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Downloads/Growl-2.0.1-SDK/Framework\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maiccu/maiccu-Prefix.pch";
 				INFOPLIST_FILE = "maiccu/maiccu-Info.plist";

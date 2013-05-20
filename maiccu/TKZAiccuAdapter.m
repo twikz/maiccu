@@ -21,22 +21,10 @@
 @end
 
 
-//static TKZAiccuAdapter *aiccuAdapter = nil;
+NSString * const TKZAiccuDidTerminate = @"AiccuDidTerminate";
+NSString * const TKZAiccuStatus = @"AiccuStatus";
 
 @implementation TKZAiccuAdapter
-@synthesize isRunnging;
-/*+ (id) alloc {
-    if (aiccuAdapter) {
-        //NSLog(@"TKZAiccuAdapter is a static class");
-        //NSString *str = cstons("Hallo");
-        return aiccuAdapter;
-    }
-    
-    aiccuAdapter = [super alloc];
-    return aiccuAdapter;
-    tic = (struct TIC_conf *)malloc(sizeof(struct TIC_conf));
-    return [super alloc];
-}*/
 
 
 - (id)init
@@ -45,22 +33,19 @@
         self.tunnelInfo = [[NSDictionary alloc] init];
         tic = (struct TIC_conf *)malloc(sizeof(struct TIC_conf));
         memset(tic, 0, sizeof(struct TIC_conf));
-        isRunnging = NO;
-        //aiccu_InitConfig();
-        //aiccu_install();
-        
+        _task = nil;
+                
+        _postTimer = nil;
+
     }
     return self;
 }
 
 
-
-
-
 - (BOOL)saveAiccuConfig:(NSDictionary *)config {
-    NSFileManager *fileManger = [NSFileManager defaultManager];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    [fileManger createDirectoryAtPath:[[self appSupportDir] path] withIntermediateDirectories:YES attributes:nil error:nil];
+    [fileManager createDirectoryAtPath:[[self appSupportDir] path] withIntermediateDirectories:YES attributes:nil error:nil];
     
     
     g_aiccu = (struct AICCU_conf *)malloc(sizeof(struct AICCU_conf));
@@ -92,65 +77,6 @@
     }
     
     free(g_aiccu);
-    return YES;
-}
-
-
-
-
-- (BOOL)startAiccu {
-   
-    
-    
-    if (![self aiccuDefaultConfigExists]) {
-        return NO;
-    }
-    
-    if (/*[self aiccuDefaultPidFileExists] ||*/ isRunnging) { //dont't forget to clean on app startup
-        return YES;
-    }
-    
-    NSString *error = nil;
-    NSString *output = nil;
-    
-    //NSLog(@"aiccu")
-    
-    NSString *shellCmd = [NSString stringWithFormat:@"\'%@\' start \'%@\'",
-                          [self aiccuDefaultPath], [self aiccuDefaultConfigPath]];
-    if ([self runProcessAsAdministrator:shellCmd withArguments:[NSArray array] output:&output errorDescription:&error]) {
-        //
-        isRunnging = YES;
-    }
-    else
-        return NO;
-    
-    return YES;
-}
-
-
-
-
-- (BOOL)stopAiccu {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    
-    
-    if (/*![self aiccuDefaultPidFileExists] ||*/ !isRunnging) {
-        return YES;
-    }
-    NSString *error = nil;
-    NSString *output = nil;
-    NSString *shellCmd = [NSString stringWithFormat:@"\'%@\' stop \'%@\'",
-                          [self aiccuDefaultPath], [self aiccuDefaultConfigPath]];
-    if ([self runProcessAsAdministrator:shellCmd withArguments:[NSArray array] output:&output errorDescription:&error]) {
-        //
-        isRunnging = NO;
-    }
-    else
-        return NO;
-    
-    [fileManager removeItemAtPath:[self aiccuDefaultPidFilePath] error:nil];
-    
     return YES;
 }
 
@@ -193,10 +119,20 @@
     return [[[self appSupportDir] URLByAppendingPathComponent:@"aiccu.pid"] path];
 }
 
+- (NSString *)aiccuDefaultLogFilePath {
+    return [[[self appSupportDir] URLByAppendingPathComponent:@"aiccu.log"] path];
+}
+
+- (BOOL) aiccuDefaultLogFileExists {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    return [fileManager fileExistsAtPath:[self aiccuDefaultPidFilePath]];
+}
+
 - (BOOL) aiccuDefaultPidFileExists {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     return [fileManager fileExistsAtPath:[self aiccuDefaultPidFilePath]];
 }
+
 
 - (BOOL) aiccuDefaultConfigExists {
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -288,49 +224,7 @@
     
     return nil;
 }
-- (BOOL) runProcessAsAdministrator:(NSString*)scriptPath
-                     withArguments:(NSArray *)arguments
-                            output:(NSString **)output
-                  errorDescription:(NSString **)errorDescription {
-    
-    NSString * allArgs = [arguments componentsJoinedByString:@" "];
-    NSString * fullScript = [NSString stringWithFormat:@"%@ %@", scriptPath, allArgs];
-    
-    NSDictionary *errorInfo = [NSDictionary new];
-    NSString *script =  [NSString stringWithFormat:@"do shell script \"%@\" with administrator privileges", fullScript];
-    
-    NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script];
-    NSAppleEventDescriptor * eventResult = [appleScript executeAndReturnError:&errorInfo];
-    
-    // Check errorInfo
-    if (! eventResult)
-    {
-        // Describe common errors
-        *errorDescription = nil;
-        if ([errorInfo valueForKey:NSAppleScriptErrorNumber])
-        {
-            NSNumber * errorNumber = (NSNumber *)[errorInfo valueForKey:NSAppleScriptErrorNumber];
-            if ([errorNumber intValue] == -128)
-                *errorDescription = @"The administrator password is required to do this.";
-        }
-        
-        // Set error message from provided message
-        if (*errorDescription == nil)
-        {
-            if ([errorInfo valueForKey:NSAppleScriptErrorMessage])
-                *errorDescription =  (NSString *)[errorInfo valueForKey:NSAppleScriptErrorMessage];
-        }
-        
-        return NO;
-    }
-    else
-    {
-        // Set output to the AppleScript's output
-        *output = [eventResult stringValue];
-        
-        return YES;
-    }
-}
+
 - (NSArray *)requestTunnelList
 {
     struct TIC_sTunnel *hsTunnel, *t;
@@ -421,6 +315,123 @@
 - (void) __logoutFromTicServerWithMessage:(NSString *)message
 {
     NSLog(@"Logout from tic server");
+}
+
+- (void)startStopAiccu
+{
+    // Is the task running?
+    if (_task) {
+        [_task interrupt];
+
+    } else {
+        
+        _statusNotificationCount = 0;
+        _statusQueue = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", @"", nil];
+        [_postTimer invalidate];
+        
+        //_status = [[NSMutableString alloc] init];
+        _task = [[NSTask alloc] init];
+        [_task setLaunchPath:@"/Users/kristof/Downloads/testomat/aiccu"];
+        NSArray *args = [NSArray arrayWithObjects: @"start", nil];
+		[_task setArguments:args];
+		
+		// Create a new pipe
+		_pipe = [[NSPipe alloc] init];
+		[_task setStandardOutput:_pipe];
+		[_task setStandardError:_pipe];
+        
+		NSFileHandle *fh = [_pipe fileHandleForReading];
+		
+		NSNotificationCenter *nc;
+		nc = [NSNotificationCenter defaultCenter];
+		[nc removeObserver:self];
+		
+		[nc addObserver:self
+			   selector:@selector(dataReady:)
+				   name:NSFileHandleReadCompletionNotification
+				 object:fh];
+		
+		[nc addObserver:self
+			   selector:@selector(taskTerminated:)
+				   name:NSTaskDidTerminateNotification
+				 object:_task];
+		
+		[_task launch];
+				
+		[fh readInBackgroundAndNotify];
+	}
+}
+
+
+- (void)shiftFIFOArray:(NSMutableArray *)array withObject:(id)object{
+    [array removeLastObject];
+    [array insertObject:object atIndex:0];
+}
+
+- (void)dataReady:(NSNotification *)n
+{
+    NSData *d;
+    d = [[n userInfo] valueForKey:NSFileHandleNotificationDataItem];
+	    
+	if ([d length]) {
+        
+         NSString *s = [[NSString alloc] initWithData:d
+                                            encoding:NSUTF8StringEncoding];
+        [self shiftFIFOArray:_statusQueue withObject:s];
+        
+        [_postTimer invalidate];        
+        _statusNotificationCount++;
+        
+        if (_statusNotificationCount >= [_statusQueue count] - 1) {
+            if(!(_statusNotificationCount % 500)) {
+                [_postTimer invalidate];
+                [self postAiccuStatusNotification];
+            }
+            else {
+                _postTimer = [NSTimer scheduledTimerWithTimeInterval:4.0f target:self selector:@selector(resetStatusNotificationCount) userInfo:nil repeats:NO];
+            }
+        }
+        else {
+            
+            [self postAiccuStatusNotification];
+        }
+
+        
+    }
+    
+	// If the task is running, start reading again
+    if (_task)
+        [[_pipe fileHandleForReading] readInBackgroundAndNotify];
+}
+
+
+- (void)postAiccuStatusNotification {
+    
+    NSMutableString *wholeMessage = [[NSMutableString alloc] init];
+    for (NSString *message in _statusQueue) {
+        [wholeMessage appendString:message];
+    }
+    
+    if (![wholeMessage isEqualToString:@""]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TKZAiccuStatus object:wholeMessage];
+    }
+    
+    _statusQueue = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", @"", nil];
+
+}
+
+- (void)resetStatusNotificationCount {
+    _statusNotificationCount = 0;
+    [self postAiccuStatusNotification];
+}
+
+- (void)taskTerminated:(NSNotification *)note
+{
+    //NSLog(@"taskTerminated:");
+	
+    [[NSNotificationCenter defaultCenter] postNotificationName:TKZAiccuDidTerminate object:[NSNumber numberWithInt:[_task terminationStatus]]];
+	_task = nil;
+    //[startButton setState:0];
 }
 
 @end

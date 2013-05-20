@@ -15,8 +15,10 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSMenu *menu;
+@property (weak) IBOutlet NSMenuItem *startstopItem;
 
 - (IBAction)clickedDetails:(id)sender;
 - (IBAction)clickedQuit:(id)sender;
+- (IBAction)startstopWasClicked:(id)sender;
 
 @end

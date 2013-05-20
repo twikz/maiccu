@@ -151,6 +151,9 @@ static float vigourOfShake = 0.05f;
     
 }
 
+- (IBAction)startstopWasClicked:(id)sender {
+}
+
 - (void)doLogin
 {
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1080</int>
+		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">12D78</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.37</string>
@@ -657,7 +657,7 @@
 					<object class="NSButton" id="613648633">
 						<reference key="NSNextResponder" ref="969155764"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{20, 19}, {122, 19}}</string>
+						<string key="NSFrame">{{20, 19}, {86, 19}}</string>
 						<reference key="NSSuperview" ref="969155764"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -696,8 +696,18 @@
 											<object class="NSLayoutManager" key="NSLayoutManager">
 												<object class="NSTextStorage" key="NSTextStorage">
 													<object class="NSMutableString" key="NSString">
-														<characters key="NS.bytes"/>
+														<characters key="NS.bytes">Logtext</characters>
 													</object>
+													<dictionary key="NSAttributes">
+														<object class="NSFont" key="NSFont">
+															<string key="NSName">Menlo-Regular</string>
+															<double key="NSSize">8</double>
+															<int key="NSfFlags">16</int>
+														</object>
+														<object class="NSMutableParagraphStyle" key="NSParagraphStyle">
+															<nil key="NSTabStops"/>
+														</object>
+													</dictionary>
 													<nil key="NSDelegate"/>
 												</object>
 												<array class="NSMutableArray" key="NSTextContainers">
@@ -711,7 +721,7 @@
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">12263</int>
+											<int key="NSFlags">12133</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<reference key="NSBackgroundColor" ref="22451213"/>
@@ -792,8 +802,8 @@
 							</object>
 							<object class="NSScroller" id="194937728">
 								<reference key="NSNextResponder" ref="203145342"/>
-								<int key="NSvFlags">-2147483392</int>
-								<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{1, 311}, {362, 16}}</string>
 								<reference key="NSSuperview" ref="203145342"/>
 								<reference key="NSNextKeyView" ref="981023624"/>
 								<string key="NSReuseIdentifierKey">_NS:33</string>
@@ -809,7 +819,7 @@
 						<reference key="NSSuperview" ref="969155764"/>
 						<reference key="NSNextKeyView" ref="194937728"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<int key="NSsFlags">133138</int>
+						<int key="NSsFlags">133170</int>
 						<reference key="NSVScroller" ref="271090737"/>
 						<reference key="NSHScroller" ref="194937728"/>
 						<reference key="NSContentView" ref="981023624"/>
@@ -1109,6 +1119,22 @@
 						<reference key="destination" ref="107812334"/>
 					</object>
 					<int key="connectionID">474</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">logTextView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1045244134"/>
+					</object>
+					<int key="connectionID">477</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">clearWasClicked:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="613648633"/>
+					</object>
+					<int key="connectionID">478</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2792,11 +2818,15 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">474</int>
+			<int key="maxID">478</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1070" key="NS.object.0"/>
+		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">

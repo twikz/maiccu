@@ -37,6 +37,7 @@
 - (IBAction)clickLogin:(id)sender;
 - (IBAction)clickSave:(id)sender;
 - (IBAction)clickShowInfo:(id)sender;
+- (IBAction)startstopWasClicked:(id)sender;
 
 
 

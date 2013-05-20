@@ -8,13 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TKZAiccuDidTerminate;
+extern NSString * const TKZAiccuStatus;
+
 @interface TKZAiccuAdapter : NSObject {
 @private
     struct TIC_conf	*tic;
+    NSTask *_task;
+    NSPipe *_pipe;
+    NSTimer *_postTimer;
+    NSMutableArray *_statusQueue;
+    NSUInteger _statusNotificationCount;
 }
-@property (strong) NSDictionary *tunnelInfo;
-@property (readonly) BOOL isRunnging;
 
+@property (strong) NSDictionary *tunnelInfo;
 
 - (NSInteger) loginToTicServer:(NSString *)server withUsername:(NSString *)username andPassword:(NSString *)password;
 - (void) logoutFromTicServerWithMessage:(NSString *)message;
@@ -26,20 +33,16 @@
 
 - (BOOL) aiccuDefaultConfigExists;
 - (NSString *) aiccuDefaultConfigPath;
+
 - (NSString *)aiccuDefaultPidFilePath;
 - (BOOL) aiccuDefaultPidFileExists;
+
 - (NSString *)aiccuDefaultPath;
 
-- (BOOL)startAiccu;
-- (BOOL)stopAiccu;
+- (NSString *)aiccuDefaultLogFilePath;
+- (BOOL) aiccuDefaultLogFileExists;
 
-
-
-
-- (BOOL) runProcessAsAdministrator:(NSString*)scriptPath
-                     withArguments:(NSArray *)arguments
-                            output:(NSString **)output
-                  errorDescription:(NSString **)errorDescription;
+- (void)startStopAiccu;
 
 
 //testmethods

@@ -101,7 +101,19 @@
     else {
         [[self window] makeFirstResponder:_usernameField];
     }
-
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSURL *url = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *logURL = [url URLByAppendingPathComponent:@"Logs/Maiccu.log"];
+    
+    //[_logTextView setVerticallyResizable:NO];
+    //[_logTextView set];
+    [[_logTextView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+    [[_logTextView textContainer] setWidthTracksTextView:NO];
+    [_logTextView setHorizontallyResizable:YES];
+    [_logTextView setString:[NSString stringWithContentsOfFile:[logURL path] encoding:NSUTF8StringEncoding error:nil]];
+    
 }
 
 - (void)doLogin {
@@ -308,6 +320,15 @@
                display:YES
                animate:YES];
     [window setContentView:newView];
+}
+
+- (IBAction)clearWasClicked:(id)sender {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSURL *url = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *logURL = [url URLByAppendingPathComponent:@"Logs/Maiccu.log"];
+    [fileManager removeItemAtPath:[logURL path] error:nil];
+    [fileManager createFileAtPath:[logURL path] contents:[NSData data] attributes:nil];
 }
 
 - (IBAction)infoWasClicked:(id)sender {
