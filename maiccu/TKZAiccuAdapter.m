@@ -41,8 +41,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 - (BOOL)saveAiccuConfig:(NSDictionary *)config toFile:(NSString *)path {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSURL *url = [[NSURL URLWithString:path] URLByDeletingLastPathComponent];
-    [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:nil];
+    [fileManager createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
     
     g_aiccu = (struct AICCU_conf *)malloc(sizeof(struct AICCU_conf));
     memset(g_aiccu, 0, sizeof(struct AICCU_conf));
@@ -57,9 +56,9 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     g_aiccu->setupscript = false;
     g_aiccu->requiretls = false;
     g_aiccu->verbose = false; //maybe true for debug
-    g_aiccu->daemonize = true;
+    g_aiccu->daemonize = false;
     g_aiccu->behindnat = [[config objectForKey:@"behindnat"] intValue]; 
-    g_aiccu->pidfile = nstocs(@"#pidfile");
+    g_aiccu->pidfile = nstocs(@"/var/run/aiccu.pid");
     g_aiccu->makebeats = true;
     g_aiccu->defaultroute = true;
     g_aiccu->noconfigure = false;
@@ -68,6 +67,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     
     if(!aiccu_SaveConfig(nstocs(path)))
     {
+        NSLog(@"Unable to save aiccu config");
         free(g_aiccu);
         return NO;
     }

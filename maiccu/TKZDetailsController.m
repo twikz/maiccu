@@ -110,7 +110,13 @@
     [[_logTextView textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
     [[_logTextView textContainer] setWidthTracksTextView:NO];
     [_logTextView setHorizontallyResizable:YES];
-    [_logTextView setString:[NSString stringWithContentsOfFile:[_maiccu maiccuLogPath] encoding:NSUTF8StringEncoding error:nil]];
+    
+    
+    NSString *log = [NSString stringWithContentsOfFile:[_maiccu maiccuLogPath] encoding:NSUTF8StringEncoding error:nil];
+    
+    if (log) {
+        [_logTextView setString:log];
+    }
 }
 
 - (void)doLogin {
@@ -129,7 +135,7 @@
     [[sheet progressIndicator] setDoubleValue:25.0f];
     [NSThread sleepForTimeInterval:0.5f];
     
-    errorCode = [_aiccu __loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
+    errorCode = [_aiccu loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
     
     [_tunnelPopUp removeAllItems];
     [_tunnelInfoList removeAllObjects];
@@ -141,7 +147,7 @@
         [[sheet progressIndicator] setDoubleValue:50.0f];
         [NSThread sleepForTimeInterval:0.5f];
         
-        NSArray *tunnelList = [_aiccu __requestTunnelList];
+        NSArray *tunnelList = [_aiccu requestTunnelList];
         
         double progressInc = 40.0f / [tunnelList count];
         
@@ -155,7 +161,7 @@
             [[sheet progressIndicator] incrementBy:progressInc];
             [NSThread sleepForTimeInterval:0.5f];
             
-            [_tunnelInfoList addObject:[_aiccu __requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
+            [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
             
             [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", [tunnel objectForKey:@"id"]]];
             
@@ -208,7 +214,7 @@
     else {
         [_config removeAllObjects];
         
-        [[sheet statusLabel] setStringValue:@"Something went wrong."];
+        [[sheet statusLabel] setStringValue:@"Invalid login credentials"];
         [[sheet statusLabel] setTextColor:[NSColor redColor]];
         [[sheet progressIndicator] setIndeterminate:YES];
         [NSThread sleepForTimeInterval:2.0f];
@@ -226,7 +232,7 @@
     }
     
     
-    [_aiccu __logoutFromTicServerWithMessage:@"Bye Bye"];
+    [_aiccu logoutFromTicServerWithMessage:@"Bye Bye"];
     
     [NSApp endSheet:[sheet window]];
     [[sheet window] orderOut:nil];
@@ -277,9 +283,11 @@
         [NSThread sleepForTimeInterval:2.0f];
     }
     
+
     [NSApp endSheet:[sheet window]];
     [[sheet window] orderOut:nil];
     
+    [self syncConfig];
 }
 
 - (IBAction)toolbarWasClicked:(id)sender {
@@ -341,6 +349,11 @@
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
+    [self syncConfig];
+}
+
+
+- (void)syncConfig {
     if ([_config count]) {
         NSLog(@"saving aiccu config");
         [_aiccu saveAiccuConfig:_config toFile:[_maiccu aiccuConfigPath]];
@@ -381,7 +394,7 @@
                                [tunnelInfo objectForKey:@"ipv6_pop"], [[tunnelInfo objectForKey:@"ipv6_prefixlength"] stringValue],
                                [[tunnelInfo objectForKey:@"mtu"] stringValue]
                                ]];
-    
+    [self syncConfig];
 }
 
 - (IBAction)natCheckBoxDidChange:(id)sender {
@@ -391,6 +404,7 @@
     else {
         [_config setObject:[NSNumber numberWithInteger:0] forKey:@"behindnat"];
     }
+    [self syncConfig];
 }
 
 - (IBAction)autoDetectWasClicked:(id)sender {

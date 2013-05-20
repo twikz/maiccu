@@ -60,6 +60,9 @@
         [[NSApplication sharedApplication] terminate:nil];
     }
 
+    if(![_maiccu aiccuConfigExists])
+        [self clickedDetails:nil];
+    
     
     [_maiccu writeLogMessage:@"Maiccu did finish launching"];
 }

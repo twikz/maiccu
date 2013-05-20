@@ -15,7 +15,6 @@
 		6D8B39011735783E009C3AC7 /* aiccu_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B39001735783E009C3AC7 /* aiccu_main.c */; };
 		6D8B390517357B1C009C3AC7 /* TKZAiccuAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */; };
 		6D8B390A1736E3DE009C3AC7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */; };
-		6D8B39121736F1A9009C3AC7 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D8B39111736F1A9009C3AC7 /* checkmark.png */; };
 		6D94902C173514E2002283B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94902B173514E2002283B0 /* Cocoa.framework */; };
 		6D949036173514E2002283B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D949034173514E2002283B0 /* InfoPlist.strings */; };
 		6D949038173514E2002283B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D949037173514E2002283B0 /* main.m */; };
@@ -80,8 +79,7 @@
 		6D8B390317357B1C009C3AC7 /* TKZAiccuAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKZAiccuAdapter.h; sourceTree = "<group>"; };
 		6D8B390417357B1C009C3AC7 /* TKZAiccuAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKZAiccuAdapter.m; sourceTree = "<group>"; };
 		6D8B39091736E3DE009C3AC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		6D8B39111736F1A9009C3AC7 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
-		6D949028173514E2002283B0 /* maiccu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = maiccu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D949028173514E2002283B0 /* Maiccu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maiccu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D94902B173514E2002283B0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D94902E173514E2002283B0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		6D94902F173514E2002283B0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -155,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				6D9A46441749445E008389B4 /* Growl Registration Ticket.growlRegDict */,
-				6D8B39111736F1A9009C3AC7 /* checkmark.png */,
 				6D94909417352725002283B0 /* aiccu */,
 				6D949031173514E2002283B0 /* maiccu */,
 				6D94904E173514E2002283B0 /* maiccuTests */,
@@ -167,7 +164,7 @@
 		6D949029173514E2002283B0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6D949028173514E2002283B0 /* maiccu.app */,
+				6D949028173514E2002283B0 /* Maiccu.app */,
 				6D949048173514E2002283B0 /* maiccuTests.octest */,
 			);
 			name = Products;
@@ -281,9 +278,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6D949027173514E2002283B0 /* maiccu */ = {
+		6D949027173514E2002283B0 /* Maiccu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6D949059173514E2002283B0 /* Build configuration list for PBXNativeTarget "maiccu" */;
+			buildConfigurationList = 6D949059173514E2002283B0 /* Build configuration list for PBXNativeTarget "Maiccu" */;
 			buildPhases = (
 				6D949024173514E2002283B0 /* Sources */,
 				6D949025173514E2002283B0 /* Frameworks */,
@@ -294,9 +291,9 @@
 			);
 			dependencies = (
 			);
-			name = maiccu;
+			name = Maiccu;
 			productName = maiccu;
-			productReference = 6D949028173514E2002283B0 /* maiccu.app */;
+			productReference = 6D949028173514E2002283B0 /* Maiccu.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6D949047173514E2002283B0 /* maiccuTests */ = {
@@ -340,7 +337,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6D949027173514E2002283B0 /* maiccu */,
+				6D949027173514E2002283B0 /* Maiccu */,
 				6D949047173514E2002283B0 /* maiccuTests */,
 			);
 		};
@@ -354,7 +351,6 @@
 				6D949036173514E2002283B0 /* InfoPlist.strings in Resources */,
 				6D94903C173514E2002283B0 /* Credits.rtf in Resources */,
 				6D949042173514E2002283B0 /* MainMenu.xib in Resources */,
-				6D8B39121736F1A9009C3AC7 /* checkmark.png in Resources */,
 				6D77C32A173981840069047A /* aiccu in Resources */,
 				6D4FFE8317459CF700E4E511 /* TKZDetailsController.xib in Resources */,
 				6D4FFE881745C60900E4E511 /* TKZSheetController.xib in Resources */,
@@ -427,7 +423,7 @@
 /* Begin PBXTargetDependency section */
 		6D94904D173514E2002283B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6D949027173514E2002283B0 /* maiccu */;
+			target = 6D949027173514E2002283B0 /* Maiccu */;
 			targetProxy = 6D94904C173514E2002283B0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -547,6 +543,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maiccu/maiccu-Prefix.pch";
 				INFOPLIST_FILE = "maiccu/maiccu-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -564,6 +561,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maiccu/maiccu-Prefix.pch";
 				INFOPLIST_FILE = "maiccu/maiccu-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -611,7 +609,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6D949059173514E2002283B0 /* Build configuration list for PBXNativeTarget "maiccu" */ = {
+		6D949059173514E2002283B0 /* Build configuration list for PBXNativeTarget "Maiccu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D94905A173514E2002283B0 /* Debug */,
