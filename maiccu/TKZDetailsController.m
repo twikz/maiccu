@@ -178,7 +178,7 @@
         if ([tunnelList count]) {
             [_tunnelPopUp setEnabled:YES];
             [_infoButton setEnabled:YES];
-            //[_natDetectButton setEnabled:YES];
+            [_natDetectButton setEnabled:YES];
             
             [_config setObject:[[_tunnelInfoList objectAtIndex:tunnelSelectIndex] objectForKey:@"id"] forKey:@"tunnel_id"];
             [_tunnelPopUp selectItemAtIndex:tunnelSelectIndex];
@@ -252,7 +252,7 @@
     [[sheet statusLabel] setTextColor:[NSColor blackColor]];
     [[sheet progressIndicator] setIndeterminate:YES];
     
-    [[sheet statusLabel] setStringValue:@"Fetching external ip address"];
+    [[sheet statusLabel] setStringValue:@"Checking network enviroment..."];
     [NSThread sleepForTimeInterval:0.5f];
     
     NSError *error = nil;
@@ -260,20 +260,31 @@
     
     if (!error) {
         
-
+        BOOL behindNAT = YES;
         for (NSString *address in [[NSHost currentHost] addresses]) {
             if ([extAddress isEqualToString:address]) {
                 //->>no nat
-
+                behindNAT = NO;
                 break;
             }
         }
-        [[sheet statusLabel] setStringValue:@"Successfully completed"];
-        [NSThread sleepForTimeInterval:0.5f];
+        NSDictionary *tunnelInfo = [_tunnelInfoList objectAtIndex:[_tunnelPopUp indexOfSelectedItem]];
+        NSString *tunnelType = [tunnelInfo objectForKey:@"type"];
+        
+        
+        if (!behindNAT || [tunnelType isEqualToString:@"ayiya"]) {
+            [[sheet statusLabel] setStringValue:@"Everthing seems to be fine."];
+            //[NSThread sleepForTimeInterval:2.0f];
+        }
+        else {
+            [[sheet statusLabel] setStringValue:@"A NAT was detected. Please use a tunnel of type ayiya."];
+            
+        }
+        [NSThread sleepForTimeInterval:2.0f];
     }
     else {
         [[sheet statusLabel] setTextColor:[NSColor redColor]];
-        [[sheet statusLabel] setStringValue:@"Error fetching external ip address"];
+        [[sheet statusLabel] setStringValue:@"Error testing tunnel configuration"];
         [NSThread sleepForTimeInterval:2.0f];
     }
     
