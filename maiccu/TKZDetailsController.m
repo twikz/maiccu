@@ -98,7 +98,6 @@
     if (config) {
         [_usernameField setStringValue:[config objectForKey:@"username"]];
         [_passwordField setStringValue:[config objectForKey:@"password"]];
-        [_natCheckBox setState:[[config objectForKey:@"behindnat"] integerValue]];
 
         [_config setDictionary:config];
     }
@@ -171,18 +170,15 @@
             }
         }
         
-        //[_natCheckBox setState:[]]
         
         [_config removeAllObjects];
-        [_config setObject:[NSNumber numberWithInteger:[_natCheckBox state]] forKey:@"behindnat"];
         [_config setObject:[_usernameField stringValue] forKey:@"username"];
         [_config setObject:[_passwordField stringValue] forKey:@"password"];
         
         if ([tunnelList count]) {
             [_tunnelPopUp setEnabled:YES];
             [_infoButton setEnabled:YES];
-            [_natCheckBox setEnabled:YES];
-            [_natDetectButton setEnabled:YES];
+            //[_natDetectButton setEnabled:YES];
             
             [_config setObject:[[_tunnelInfoList objectAtIndex:tunnelSelectIndex] objectForKey:@"id"] forKey:@"tunnel_id"];
             [_tunnelPopUp selectItemAtIndex:tunnelSelectIndex];
@@ -195,7 +191,6 @@
             [_tunnelPopUp addItemWithTitle:@"--no tunnels--"];
             [_tunnelPopUp setEnabled:NO];
             [_infoButton setEnabled:NO];
-            [_natCheckBox setEnabled:NO];
             [_natDetectButton setEnabled:NO];
             
         }
@@ -224,7 +219,6 @@
         
         [_tunnelPopUp setEnabled:NO];
         [_infoButton setEnabled:NO];
-        [_natCheckBox setEnabled:NO];
         [_natDetectButton setEnabled:NO];
         [_usernameMarker setHidden:NO];
         [_passwordMarker setHidden:NO];
@@ -266,13 +260,11 @@
     
     if (!error) {
         
-        [_natCheckBox setState:1];
-        [_config setObject:[NSNumber numberWithInteger:1] forKey:@"behindnat"];
+
         for (NSString *address in [[NSHost currentHost] addresses]) {
             if ([extAddress isEqualToString:address]) {
-                //
-                [_natCheckBox setState:0];
-                [_config setObject:[NSNumber numberWithInteger:0] forKey:@"behindnat"];
+                //->>no nat
+
                 break;
             }
         }
@@ -399,15 +391,6 @@
     [self syncConfig];
 }
 
-- (IBAction)natCheckBoxDidChange:(id)sender {
-    if ([_natCheckBox state]) {
-        [_config setObject:[NSNumber numberWithInteger:1] forKey:@"behindnat"];
-    }
-    else {
-        [_config setObject:[NSNumber numberWithInteger:0] forKey:@"behindnat"];
-    }
-    [self syncConfig];
-}
 
 - (IBAction)autoDetectWasClicked:(id)sender {
     [NSThread detachNewThreadSelector:@selector(doNATDetection) toTarget:self withObject:nil];

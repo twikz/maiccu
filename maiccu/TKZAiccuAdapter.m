@@ -57,7 +57,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     g_aiccu->requiretls = false;
     g_aiccu->verbose = false; //maybe true for debug
     g_aiccu->daemonize = false;
-    g_aiccu->behindnat = [[config objectForKey:@"behindnat"] intValue]; 
+    g_aiccu->behindnat = false;//[[config objectForKey:@"behindnat"] intValue];
     g_aiccu->pidfile = nstocs(@"/var/run/aiccu.pid");
     g_aiccu->makebeats = true;
     g_aiccu->defaultroute = true;
@@ -93,7 +93,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
                             cstons(g_aiccu->username), @"username",
                             cstons(g_aiccu->password), @"password",
                             cstons(g_aiccu->tunnel_id), @"tunnel_id",
-                            [NSNumber numberWithInteger:(NSInteger)g_aiccu->behindnat], @"behindnat",
+                            //[NSNumber numberWithInteger:(NSInteger)g_aiccu->behindnat], @"behindnat",
                             nil];
     
     aiccu_FreeConfig();

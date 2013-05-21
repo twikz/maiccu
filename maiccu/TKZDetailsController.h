@@ -42,7 +42,7 @@
 @property (weak) IBOutlet NSPopUpButton *tunnelPopUp;
 @property (weak) IBOutlet NSButton *infoButton;
 @property (weak) IBOutlet NSButton *natDetectButton;
-@property (weak) IBOutlet NSButton *natCheckBox;
+//@property (weak) IBOutlet NSButton *natCheckBox;
 
 @property (weak) IBOutlet NSTextField *tunnelHeadField;
 @property (weak) IBOutlet NSTextField *tunnelInfoField;
@@ -58,7 +58,6 @@
 
 - (IBAction)infoWasClicked:(id)sender;
 - (IBAction)tunnelPopUpHasChanged:(id)sender;
-- (IBAction)natCheckBoxDidChange:(id)sender;
 - (IBAction)autoDetectWasClicked:(id)sender;
 
 
