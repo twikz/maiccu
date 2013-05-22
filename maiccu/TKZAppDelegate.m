@@ -53,7 +53,7 @@
     if (![fileManager fileExistsAtPath:@"/dev/tun0"]) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
-        [alert setMessageText:@"Please install the latest TUN/TAP drivers"];
+        [alert setMessageText:@"Please install the latest TUN/TAP driver"];
         [alert addButtonWithTitle:@"Go to website"];
         [alert runModal];
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://tuntaposx.sourceforge.net/download.xhtml"]];
