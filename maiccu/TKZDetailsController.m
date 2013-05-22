@@ -90,7 +90,7 @@
     
     [_signupLabel setAllowsEditingTextAttributes:YES];
     [_signupLabel setSelectable:YES];
-    [_signupLabel setAttributedStringValue:[self hyperlinkFromString:@"No account yet? Signup on sixXS.net" withURL:[NSURL URLWithString:@"http://www.sixxs.net"]]];
+    [_signupLabel setAttributedStringValue:[self hyperlinkFromString:@"No account yet? Sign up on sixXS.net" withURL:[NSURL URLWithString:@"http://www.sixxs.net"]]];
     
     
     NSDictionary *config = [_aiccu loadAiccuConfigFile:[_maiccu aiccuConfigPath]];
@@ -158,7 +158,7 @@
             
             [[sheet statusLabel] setStringValue:@"Fetching tunnel info..."];
             [[sheet progressIndicator] incrementBy:progressInc];
-            [NSThread sleepForTimeInterval:0.5f];
+            [NSThread sleepForTimeInterval:0.2f];
             
             [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
             

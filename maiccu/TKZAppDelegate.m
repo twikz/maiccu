@@ -99,7 +99,7 @@
     [_maiccu writeLogMessage:[NSString stringWithFormat:@"aiccu terminated with status %li", [[aNotification object] integerValue]]];
     [self postNotification:[NSString stringWithFormat:@"aiccu terminated with status %li", [[aNotification object] integerValue]]];
     _isAiccuRunning = NO;
-    [_startstopItem setTitle:@"Start aiccu"];
+    [_startstopItem setTitle:@"Start"];
 }
 
 - (void)aiccuNotification:(NSNotification *)aNotification {
@@ -139,7 +139,7 @@
     if (![_maiccu aiccuConfigExists] && !_isAiccuRunning)
         return;
     _isAiccuRunning = YES;
-    [_startstopItem setTitle:@"Stop aiccu"];
+    [_startstopItem setTitle:@"Stop"];
     [_aiccu startStopAiccuFrom:[_maiccu aiccuPath] withConfigFile:[_maiccu aiccuConfigPath]];
 }
 @end
