@@ -49,7 +49,10 @@
     [super windowDidLoad];    
     
     if ([_config count]) {
-        [NSThread detachNewThreadSelector:@selector(doLogin) toTarget:self withObject:nil];
+        TKZSheetController *sheet = [[TKZSheetController alloc] init];
+        
+        [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        [NSThread detachNewThreadSelector:@selector(doLogin:) toTarget:self withObject:sheet];
     }
     
 }
@@ -59,7 +62,10 @@
     // See if it was due to a return
     if ( [[[notification userInfo] objectForKey:@"NSTextMovement"] intValue] == NSReturnTextMovement )
     {
-        [NSThread detachNewThreadSelector:@selector(doLogin) toTarget:self withObject:nil];
+        TKZSheetController *sheet = [[TKZSheetController alloc] init];
+        
+        [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+        [NSThread detachNewThreadSelector:@selector(doLogin:) toTarget:self withObject:sheet];
     }
 }
 
@@ -118,11 +124,11 @@
     }
 }
 
-- (void)doLogin {
-    TKZSheetController *sheet  = [[TKZSheetController alloc] init];
+- (void)doLogin:(TKZSheetController *)sheet {
+    //TKZSheetController *sheet  = [[TKZSheetController alloc] init];
     NSInteger errorCode = 0;
     
-    [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    //[NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
     
     [[sheet window] makeKeyAndOrderFront:nil];
     [[sheet window] display];
@@ -134,7 +140,7 @@
     [[sheet progressIndicator] setDoubleValue:25.0f];
     [NSThread sleepForTimeInterval:0.5f];
     
-    errorCode = [_aiccu loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
+    errorCode = [_aiccu __loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
     
     [_tunnelPopUp removeAllItems];
     [_tunnelInfoList removeAllObjects];
@@ -146,7 +152,7 @@
         [[sheet progressIndicator] setDoubleValue:50.0f];
         [NSThread sleepForTimeInterval:0.5f];
         
-        NSArray *tunnelList = [_aiccu requestTunnelList];
+        NSArray *tunnelList = [_aiccu __requestTunnelList];
         
         double progressInc = 40.0f / [tunnelList count];
         
@@ -160,7 +166,7 @@
             [[sheet progressIndicator] incrementBy:progressInc];
             [NSThread sleepForTimeInterval:0.2f];
             
-            [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
+            [_tunnelInfoList addObject:[_aiccu __requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
             
             [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", [tunnel objectForKey:@"id"]]];
             
@@ -226,7 +232,7 @@
     }
     
     
-    [_aiccu logoutFromTicServerWithMessage:@"Bye Bye"];
+    [_aiccu __logoutFromTicServerWithMessage:@"Bye Bye"];
     
     [NSApp endSheet:[sheet window]];
     [[sheet window] orderOut:nil];
@@ -240,11 +246,13 @@
 }
 
 
-- (void)doNATDetection {
+- (void)doNATDetection:(TKZSheetController *)sheet {
     
-    TKZSheetController *sheet = [[TKZSheetController alloc] init];
+    //TKZSheetController *sheet = [[TKZSheetController alloc] init];
     
-    [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    //[NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    
+    //[NSApp beginSheetModalForWindow:[sheet window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
     
     [[sheet window] makeKeyAndOrderFront:nil];
     [[sheet window] display];
@@ -404,6 +412,10 @@
 
 
 - (IBAction)autoDetectWasClicked:(id)sender {
-    [NSThread detachNewThreadSelector:@selector(doNATDetection) toTarget:self withObject:nil];
+    //[NSThread detachNewThreadSelector:@selector(doNATDetection) toTarget:self withObject:nil];
+    TKZSheetController *sheet = [[TKZSheetController alloc] init];
+    
+    [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    [NSThread detachNewThreadSelector:@selector(doNATDetection:) toTarget:self withObject:sheet];
 }
 @end
