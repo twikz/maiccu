@@ -140,7 +140,7 @@
     [[sheet progressIndicator] setDoubleValue:25.0f];
     [NSThread sleepForTimeInterval:0.5f];
     
-    errorCode = [_aiccu __loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
+    errorCode = [_aiccu loginToTicServer:@"tic.sixxs.net" withUsername:[_usernameField stringValue] andPassword:[_passwordField stringValue]];
     
     [_tunnelPopUp removeAllItems];
     [_tunnelInfoList removeAllObjects];
@@ -152,7 +152,7 @@
         [[sheet progressIndicator] setDoubleValue:50.0f];
         [NSThread sleepForTimeInterval:0.5f];
         
-        NSArray *tunnelList = [_aiccu __requestTunnelList];
+        NSArray *tunnelList = [_aiccu requestTunnelList];
         
         double progressInc = 40.0f / [tunnelList count];
         
@@ -166,7 +166,7 @@
             [[sheet progressIndicator] incrementBy:progressInc];
             [NSThread sleepForTimeInterval:0.2f];
             
-            [_tunnelInfoList addObject:[_aiccu __requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
+            [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
             
             [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", [tunnel objectForKey:@"id"]]];
             
@@ -232,7 +232,7 @@
     }
     
     
-    [_aiccu __logoutFromTicServerWithMessage:@"Bye Bye"];
+    [_aiccu logoutFromTicServerWithMessage:@"Bye Bye"];
     
     [NSApp endSheet:[sheet window]];
     [[sheet window] orderOut:nil];
