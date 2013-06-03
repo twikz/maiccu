@@ -170,7 +170,7 @@
             
             [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:tunnel[@"id"]]];
             
-            [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", tunnel[@"id"]]];
+            [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ - %@ --", tunnel[@"id"], [_tunnelInfoList lastObject][@"type"]]];
             
             if ([_config[@"tunnel_id"] isEqualToString:tunnel[@"id"]]) {
                 tunnelSelectIndex = [_tunnelInfoList count] - 1;
@@ -187,6 +187,7 @@
             [_tunnelPopUp setEnabled:YES];
             [_infoButton setEnabled:YES];
             [_natDetectButton setEnabled:YES];
+            [_exportButton setEnabled:YES];
             
             _config[@"tunnel_id"] = _tunnelInfoList[tunnelSelectIndex][@"id"];
             [_tunnelPopUp selectItemAtIndex:tunnelSelectIndex];
@@ -200,7 +201,7 @@
             [_tunnelPopUp setEnabled:NO];
             [_infoButton setEnabled:NO];
             [_natDetectButton setEnabled:NO];
-            
+            [_exportButton setEnabled:NO];
         }
         
         
@@ -228,6 +229,8 @@
         [_tunnelPopUp setEnabled:NO];
         [_infoButton setEnabled:NO];
         [_natDetectButton setEnabled:NO];
+        [_exportButton setEnabled:NO];
+        
         [_usernameMarker setHidden:NO];
         [_passwordMarker setHidden:NO];
         
@@ -287,6 +290,7 @@
             //[NSThread sleepForTimeInterval:2.0f];
         }
         else {
+            [[sheet statusLabel] setTextColor:[NSColor orangeColor]];
             [[sheet statusLabel] setStringValue:@"A NAT was detected. Please use a tunnel of type ayiya."];
             
         }
@@ -419,6 +423,20 @@
     
     [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
     [NSThread detachNewThreadSelector:@selector(doNATDetection:) toTarget:self withObject:sheet];
+}
+
+- (IBAction)exportWasClicked:(id)sender {
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    
+    [savePanel setTitle:@"Export"];
+    [savePanel setPrompt:@"Export"];
+    [savePanel setNameFieldStringValue:@"aiccu.conf"];
+    [savePanel setAllowedFileTypes:@[@"conf"]];
+    [savePanel setExtensionHidden:NO];
+    [savePanel beginSheetModalForWindow:[self window] completionHandler:nil];
+    if ([savePanel runModal] == NSOKButton) {
+        [_aiccu saveAiccuConfig:_config toFile:[[savePanel URL] path]];
+    }
 }
 - (IBAction)startupHasChanged:(id)sender {
     [_maiccu setToLaunchAgent:[_startupCheckbox state]];
