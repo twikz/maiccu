@@ -71,7 +71,7 @@
     for (NSString *arg in [[NSProcessInfo processInfo] arguments]) {
         if ([arg isEqualToString:@"--start"]) {
             NSLog(@"Go...");
-            //[self startstopWasClicked:nil];
+            [self startstopWasClicked:nil];
             break;
         }
     }
