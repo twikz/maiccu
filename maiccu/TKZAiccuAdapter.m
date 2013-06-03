@@ -46,12 +46,12 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     g_aiccu = (struct AICCU_conf *)malloc(sizeof(struct AICCU_conf));
     memset(g_aiccu, 0, sizeof(struct AICCU_conf));
     
-    g_aiccu->username = nstocs([config objectForKey:@"username"]);
-    g_aiccu->password = nstocs([config objectForKey:@"password"]);
+    g_aiccu->username = nstocs(config[@"username"]);
+    g_aiccu->password = nstocs(config[@"password"]);
     g_aiccu->protocol = nstocs(@"tic");
     g_aiccu->server = nstocs(@"tic.sixxs.net");
     g_aiccu->ipv6_interface = nstocs(@"tun0");
-    g_aiccu->tunnel_id = nstocs([config objectForKey:@"tunnel_id"]);
+    g_aiccu->tunnel_id = nstocs(config[@"tunnel_id"]);
     g_aiccu->automatic = true;
     g_aiccu->setupscript = false;
     g_aiccu->requiretls = false;
@@ -89,12 +89,9 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
         return nil;
     }
     
-    NSDictionary *config = [NSDictionary dictionaryWithObjectsAndKeys:
-                            cstons(g_aiccu->username), @"username",
-                            cstons(g_aiccu->password), @"password",
-                            cstons(g_aiccu->tunnel_id), @"tunnel_id",
-                            //[NSNumber numberWithInteger:(NSInteger)g_aiccu->behindnat], @"behindnat",
-                            nil];
+    NSDictionary *config = @{@"username": cstons(g_aiccu->username),
+                            @"password": cstons(g_aiccu->password),
+                            @"tunnel_id": cstons(g_aiccu->tunnel_id)};
     
     aiccu_FreeConfig();
     
@@ -110,23 +107,21 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     if (!hTunnel) return nil;
     
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-                            cstons(hTunnel->sId), @"id",
-                            cstons(hTunnel->sIPv4_Local), @"ipv4_local",
-                            cstons(hTunnel->sIPv6_Local), @"ipv6_local",
-                            cstons(hTunnel->sIPv4_POP), @"ipv4_pop",
-                            cstons(hTunnel->sIPv6_POP), @"ipv6_pop",
-                            cstons(hTunnel->sIPv6_LinkLocal), @"ipv6_linklocal",
-                            cstons(hTunnel->sPassword), @"password",
-                            cstons(hTunnel->sPOP_Id), @"pop_id",
-                            cstons(hTunnel->sType), @"type",
-                            cstons(hTunnel->sUserState), @"userstate",
-                            cstons(hTunnel->sAdminState), @"adminstate",
-                            [NSNumber numberWithUnsignedInt:hTunnel->nHeartbeat_Interval], @"heartbeat_intervall",
-                            [NSNumber numberWithUnsignedInt:hTunnel->nIPv6_PrefixLength], @"ipv6_prefixlength",
-                            [NSNumber numberWithUnsignedInt:hTunnel->nMTU], @"mtu",
-                            [NSNumber numberWithUnsignedInt:hTunnel->uses_tundev], @"uses_tundev",
-                            nil];
+    return @{@"id": cstons(hTunnel->sId),
+                            @"ipv4_local": cstons(hTunnel->sIPv4_Local),
+                            @"ipv6_local": cstons(hTunnel->sIPv6_Local),
+                            @"ipv4_pop": cstons(hTunnel->sIPv4_POP),
+                            @"ipv6_pop": cstons(hTunnel->sIPv6_POP),
+                            @"ipv6_linklocal": cstons(hTunnel->sIPv6_LinkLocal),
+                            @"password": cstons(hTunnel->sPassword),
+                            @"pop_id": cstons(hTunnel->sPOP_Id),
+                            @"type": cstons(hTunnel->sType),
+                            @"userstate": cstons(hTunnel->sUserState),
+                            @"adminstate": cstons(hTunnel->sAdminState),
+                            @"heartbeat_intervall": @(hTunnel->nHeartbeat_Interval),
+                            @"ipv6_prefixlength": @(hTunnel->nIPv6_PrefixLength),
+                            @"mtu": @(hTunnel->nMTU),
+                            @"uses_tundev": @(hTunnel->uses_tundev)};
 }
 
 
@@ -139,43 +134,39 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
     
     if ([tunnel isEqualToString:@"T12345"]) {
 
-        return [NSDictionary dictionaryWithObjectsAndKeys:
-                @"T12345", @"id",
-                @"heartbeat", @"ipv4_local",
-                @"2a01:1234:5678:2c0::2", @"ipv6_local",
-                @"1.2.3.4", @"ipv4_pop",
-                @"123:1233:232:1", @"ipv6_pop",
-                @"", @"ipv6_linklocal",
-                @"bablablabalbal", @"password",
-                @"popid01", @"pop_id",
-                @"6in4-heartbeat", @"type",
-                @"enabled", @"userstate",
-                @"enabled", @"adminstate",
-                [NSNumber numberWithUnsignedInt:60], @"heartbeat_intervall",
-                [NSNumber numberWithUnsignedInt:64], @"ipv6_prefixlength",
-                [NSNumber numberWithUnsignedInt:1280], @"mtu",
-                [NSNumber numberWithUnsignedInt:0], @"uses_tundev",
-                nil];
+        return @{@"id": @"T12345",
+                @"ipv4_local": @"heartbeat",
+                @"ipv6_local": @"2a01:1234:5678:2c0::2",
+                @"ipv4_pop": @"1.2.3.4",
+                @"ipv6_pop": @"123:1233:232:1",
+                @"ipv6_linklocal": @"",
+                @"password": @"bablablabalbal",
+                @"pop_id": @"popid01",
+                @"type": @"6in4-heartbeat",
+                @"userstate": @"enabled",
+                @"adminstate": @"enabled",
+                @"heartbeat_intervall": @60U,
+                @"ipv6_prefixlength": @64U,
+                @"mtu": @1280U,
+                @"uses_tundev": @0U};
     
     }
     else if ([tunnel isEqualToString:@"T67890"]) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:
-                @"T67890", @"id",
-                @"ayiya", @"ipv4_local",
-                @"2a01:2001:2000::1", @"ipv6_local",
-                @"1.2.3.4", @"ipv4_pop",
-                @"2a01::1", @"ipv6_pop",
-                @"", @"ipv6_linklocal",
-                @"blablabla", @"password",
-                @"popo02", @"pop_id",
-                @"ayiya", @"type",
-                @"enabled", @"userstate",
-                @"enabled", @"adminstate",
-                [NSNumber numberWithUnsignedInt:60], @"heartbeat_intervall",
-                [NSNumber numberWithUnsignedInt:64], @"ipv6_prefixlength",
-                [NSNumber numberWithUnsignedInt:1280], @"mtu",
-                [NSNumber numberWithUnsignedInt:1], @"uses_tundev",
-                nil];
+        return @{@"id": @"T67890",
+                @"ipv4_local": @"ayiya",
+                @"ipv6_local": @"2a01:2001:2000::1",
+                @"ipv4_pop": @"1.2.3.4",
+                @"ipv6_pop": @"2a01::1",
+                @"ipv6_linklocal": @"",
+                @"password": @"blablabla",
+                @"pop_id": @"popo02",
+                @"type": @"ayiya",
+                @"userstate": @"enabled",
+                @"adminstate": @"enabled",
+                @"heartbeat_intervall": @60U,
+                @"ipv6_prefixlength": @64U,
+                @"mtu": @1280U,
+                @"uses_tundev": @1U};
         
         
     }
@@ -203,12 +194,10 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 	for (t = hsTunnel; t; t = t->next)
 	{
 		//printf("%s %s %s %s\n", t->sId, t->sIPv6, t->sIPv4, t->sPOPId);
-        NSDictionary *tunnelInfo =  [NSDictionary dictionaryWithObjectsAndKeys:
-                                    cstons(t->sId), @"id",
-                                    cstons(t->sIPv6), @"ipv6",
-                                    cstons(t->sIPv4), @"ipv4",
-                                    cstons(t->sPOPId), @"popid",
-                                    nil];
+        NSDictionary *tunnelInfo =  @{@"id": cstons(t->sId),
+                                    @"ipv6": cstons(t->sIPv6),
+                                    @"ipv4": cstons(t->sIPv4),
+                                    @"popid": cstons(t->sPOPId)};
         
         //build an array of NSDictionary
         [tunnels addObject:tunnelInfo];
@@ -223,20 +212,16 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 {
     NSLog(@"Request tunnel list");
     
-        NSDictionary *tunnelInfo1 =  [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"T12345", @"id",
-                                     @"2a01::2", @"ipv6",
-                                     @"heartbeat", @"ipv4",
-                                     @"pop01", @"popid",
-                                     nil];
-        NSDictionary *tunnelInfo2 =  [NSDictionary dictionaryWithObjectsAndKeys:
-                                     @"T67890", @"id",
-                                     @"2a01::2", @"ipv6",
-                                     @"ayiya", @"ipv4",
-                                     @"pop02", @"popid",
-                                     nil];
+        NSDictionary *tunnelInfo1 =  @{@"id": @"T12345",
+                                     @"ipv6": @"2a01::2",
+                                     @"ipv4": @"heartbeat",
+                                     @"popid": @"pop01"};
+        NSDictionary *tunnelInfo2 =  @{@"id": @"T67890",
+                                     @"ipv6": @"2a01::2",
+                                     @"ipv4": @"ayiya",
+                                     @"popid": @"pop02"};
         
-    return [NSArray arrayWithObjects:tunnelInfo1, tunnelInfo2, nil];
+    return @[tunnelInfo1, tunnelInfo2];
     //return [NSArray array];
 	
 }
@@ -290,7 +275,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
         //_status = [[NSMutableString alloc] init];
         _task = [[NSTask alloc] init];
         [_task setLaunchPath:path];
-        NSArray *args = [NSArray arrayWithObjects: @"start", configPath, nil];
+        NSArray *args = @[@"start", configPath];
 		[_task setArguments:args];
 		
 		// Create a new pipe
@@ -387,7 +372,7 @@ NSString * const TKZAiccuStatus = @"AiccuStatus";
 {
     //NSLog(@"taskTerminated:");
 	
-    [[NSNotificationCenter defaultCenter] postNotificationName:TKZAiccuDidTerminate object:[NSNumber numberWithInt:[_task terminationStatus]]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TKZAiccuDidTerminate object:@([_task terminationStatus])];
 	_task = nil;
     //[startButton setState:0];
 }

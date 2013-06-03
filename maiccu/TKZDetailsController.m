@@ -60,7 +60,7 @@
 -(void)controlTextDidEndEditing:(NSNotification *)notification
 {
     // See if it was due to a return
-    if ( [[[notification userInfo] objectForKey:@"NSTextMovement"] intValue] == NSReturnTextMovement )
+    if ( [[notification userInfo][@"NSTextMovement"] intValue] == NSReturnTextMovement )
     {
         TKZSheetController *sheet = [[TKZSheetController alloc] init];
         
@@ -82,7 +82,7 @@
     
     // next make the text appear with an underline
     [attrString addAttribute:
-     NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSSingleUnderlineStyle] range:range];
+     NSUnderlineStyleAttributeName value:@(NSSingleUnderlineStyle) range:range];
     
     [attrString endEditing];
     
@@ -102,8 +102,8 @@
     NSDictionary *config = [_aiccu loadAiccuConfigFile:[_maiccu aiccuConfigPath]];
     //config = nil;
     if (config) {
-        [_usernameField setStringValue:[config objectForKey:@"username"]];
-        [_passwordField setStringValue:[config objectForKey:@"password"]];
+        [_usernameField setStringValue:config[@"username"]];
+        [_passwordField setStringValue:config[@"password"]];
 
         [_config setDictionary:config];
     }
@@ -122,6 +122,8 @@
     if (log) {
         [_logTextView setString:log];
     }
+    
+    [_startupCheckbox setState:[_maiccu isLaunchAgent]];
 }
 
 - (void)doLogin:(TKZSheetController *)sheet {
@@ -166,11 +168,11 @@
             [[sheet progressIndicator] incrementBy:progressInc];
             [NSThread sleepForTimeInterval:0.2f];
             
-            [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:[tunnel objectForKey:@"id"]]];
+            [_tunnelInfoList addObject:[_aiccu requestTunnelInfoForTunnel:tunnel[@"id"]]];
             
-            [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", [tunnel objectForKey:@"id"]]];
+            [_tunnelPopUp addItemWithTitle:[NSString stringWithFormat:@"-- %@ --", tunnel[@"id"]]];
             
-            if ([[_config objectForKey:@"tunnel_id"] isEqualToString:[tunnel objectForKey:@"id"]]) {
+            if ([_config[@"tunnel_id"] isEqualToString:tunnel[@"id"]]) {
                 tunnelSelectIndex = [_tunnelInfoList count] - 1;
                 //tunnelid = [tunnel objectForKey:@"id"];
             }
@@ -178,15 +180,15 @@
         
         
         [_config removeAllObjects];
-        [_config setObject:[_usernameField stringValue] forKey:@"username"];
-        [_config setObject:[_passwordField stringValue] forKey:@"password"];
+        _config[@"username"] = [_usernameField stringValue];
+        _config[@"password"] = [_passwordField stringValue];
         
         if ([tunnelList count]) {
             [_tunnelPopUp setEnabled:YES];
             [_infoButton setEnabled:YES];
             [_natDetectButton setEnabled:YES];
             
-            [_config setObject:[[_tunnelInfoList objectAtIndex:tunnelSelectIndex] objectForKey:@"id"] forKey:@"tunnel_id"];
+            _config[@"tunnel_id"] = _tunnelInfoList[tunnelSelectIndex][@"id"];
             [_tunnelPopUp selectItemAtIndex:tunnelSelectIndex];
             
             //refesh popover menu
@@ -276,8 +278,8 @@
                 break;
             }
         }
-        NSDictionary *tunnelInfo = [_tunnelInfoList objectAtIndex:[_tunnelPopUp indexOfSelectedItem]];
-        NSString *tunnelType = [tunnelInfo objectForKey:@"type"];
+        NSDictionary *tunnelInfo = _tunnelInfoList[[_tunnelPopUp indexOfSelectedItem]];
+        NSString *tunnelType = tunnelInfo[@"type"];
         
         
         if (!behindNAT || [tunnelType isEqualToString:@"ayiya"]) {
@@ -368,11 +370,11 @@
 
 - (void)syncConfig {
     if ([_config count]) {
-        NSLog(@"saving aiccu config");
+        //NSLog(@"saving aiccu config");
         [_aiccu saveAiccuConfig:_config toFile:[_maiccu aiccuConfigPath]];
     }
     else {
-        NSLog(@"deleting aiccu config");
+        //NSLog(@"deleting aiccu config");
         [[NSFileManager defaultManager] removeItemAtPath:[_maiccu aiccuConfigPath] error:nil];
     }
 }
@@ -383,13 +385,13 @@
 
 - (IBAction)tunnelPopUpHasChanged:(id)sender {
     //
-    NSDictionary *tunnelInfo = [_tunnelInfoList objectAtIndex:[_tunnelPopUp indexOfSelectedItem]];
+    NSDictionary *tunnelInfo = _tunnelInfoList[[_tunnelPopUp indexOfSelectedItem]];
     
     //set current tunnel id
-    [_config setObject:[tunnelInfo objectForKey:@"id"] forKey:@"tunnel_id"];
+    _config[@"tunnel_id"] = tunnelInfo[@"id"];
     
     //set text in popup view
-    [_tunnelHeadField setStringValue:[NSString stringWithFormat:@"Tunnel %@", [tunnelInfo objectForKey:@"id"]]];
+    [_tunnelHeadField setStringValue:[NSString stringWithFormat:@"Tunnel %@", tunnelInfo[@"id"]]];
     [_tunnelInfoField setStringValue:[NSString stringWithFormat:
                                @"Popid     : %@\n"
                                @"Type      : %@\n\n"
@@ -399,13 +401,13 @@
                                @"IPv6 pop  : %@/%@\n\n"
                                @"MTU       : %@"
                                ,
-                               [tunnelInfo objectForKey:@"pop_id"],
-                               [tunnelInfo objectForKey:@"type"],
-                               [tunnelInfo objectForKey:@"ipv4_local"],
-                               [tunnelInfo objectForKey:@"ipv4_pop"],
-                               [tunnelInfo objectForKey:@"ipv6_local"], [[tunnelInfo objectForKey:@"ipv6_prefixlength"] stringValue],
-                               [tunnelInfo objectForKey:@"ipv6_pop"], [[tunnelInfo objectForKey:@"ipv6_prefixlength"] stringValue],
-                               [[tunnelInfo objectForKey:@"mtu"] stringValue]
+                               tunnelInfo[@"pop_id"],
+                               tunnelInfo[@"type"],
+                               tunnelInfo[@"ipv4_local"],
+                               tunnelInfo[@"ipv4_pop"],
+                               tunnelInfo[@"ipv6_local"], [tunnelInfo[@"ipv6_prefixlength"] stringValue],
+                               tunnelInfo[@"ipv6_pop"], [tunnelInfo[@"ipv6_prefixlength"] stringValue],
+                               [tunnelInfo[@"mtu"] stringValue]
                                ]];
     [self syncConfig];
 }
@@ -417,5 +419,8 @@
     
     [NSApp beginSheet:[sheet window] modalForWindow:[self window] modalDelegate:nil didEndSelector:nil contextInfo:nil];
     [NSThread detachNewThreadSelector:@selector(doNATDetection:) toTarget:self withObject:sheet];
+}
+- (IBAction)startupHasChanged:(id)sender {
+    [_maiccu setToLaunchAgent:[_startupCheckbox state]];
 }
 @end

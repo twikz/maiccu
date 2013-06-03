@@ -148,13 +148,11 @@ void sock_printf(TLSSOCKET sock, const char *fmt, ...)
 #ifndef AICCU_PATCH
 		if (g_aiccu->verbose)
 		{
-#endif
 			/* Strip the last \n */
 			len = (int)strlen(buf);
 			if (len > 0) buf[len-1] = '\0';
 			/* dump the information */
 			dolog(LOG_DEBUG, "sock_printf()  : \"%s\"\n", buf);
-#ifndef AICCU_PATCH
 		}
 #endif
 	}
@@ -236,9 +234,8 @@ int sock_getline(TLSSOCKET sock, char *rbuf, unsigned int rbuflen, unsigned int 
 				/* Show this as debug output */
 #ifndef AICCU_PATCH
 				if (g_aiccu->verbose)
-#endif
                     dolog(LOG_DEBUG, "sock_getline() : \"%s\"\n", ubuf);
-
+#endif
 				/* We got ourselves a line in 'buf' thus return to the caller */
 				return i;
 			}

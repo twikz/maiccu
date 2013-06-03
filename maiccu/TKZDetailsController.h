@@ -47,6 +47,14 @@
 @property (weak) IBOutlet NSTextField *tunnelHeadField;
 @property (weak) IBOutlet NSTextField *tunnelInfoField;
 @property (strong) IBOutlet NSPopover *tunnelPopOver;
+@property (weak) IBOutlet NSButton *startupCheckbox;
+- (IBAction)startupHasChanged:(id)sender;
+
+- (IBAction)infoWasClicked:(id)sender;
+- (IBAction)tunnelPopUpHasChanged:(id)sender;
+- (IBAction)autoDetectWasClicked:(id)sender;
+
+
 
 
 
@@ -56,9 +64,6 @@
 
 
 
-- (IBAction)infoWasClicked:(id)sender;
-- (IBAction)tunnelPopUpHasChanged:(id)sender;
-- (IBAction)autoDetectWasClicked:(id)sender;
 
 
 @end

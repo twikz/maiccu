@@ -30,11 +30,11 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
        
     NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:[_maiccu aiccuPath] error:nil];
-    NSString *oktalPermissions = [NSString stringWithFormat:@"%lo", [[fileAttributes objectForKey:NSFilePosixPermissions] integerValue]];
+    NSString *oktalPermissions = [NSString stringWithFormat:@"%lo", [fileAttributes[NSFilePosixPermissions] integerValue]];
     
     if (![oktalPermissions isEqualToString:@"6755"] ||
-        [[fileAttributes objectForKey:NSFileOwnerAccountID] integerValue] ||
-        [[fileAttributes objectForKey:NSFileGroupOwnerAccountID] integerValue]
+        [fileAttributes[NSFileOwnerAccountID] integerValue] ||
+        [fileAttributes[NSFileGroupOwnerAccountID] integerValue]
         ) {
         
         NSDictionary *error = [NSDictionary new];
@@ -47,6 +47,7 @@
         } else {
             [_maiccu writeLogMessage:@"Unable to set file permissions"];
             [[NSApplication sharedApplication] terminate:nil];
+            return;
         }
     }
     
@@ -58,6 +59,7 @@
         [alert runModal];
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://tuntaposx.sourceforge.net/download.xhtml"]];
         [[NSApplication sharedApplication] terminate:nil];
+        return;
     }
 
     if(![_maiccu aiccuConfigExists])
@@ -65,6 +67,15 @@
     
     
     [_maiccu writeLogMessage:@"Maiccu did finish launching"];
+    
+    for (NSString *arg in [[NSProcessInfo processInfo] arguments]) {
+        if ([arg isEqualToString:@"--start"]) {
+            NSLog(@"Go...");
+            //[self startstopWasClicked:nil];
+            break;
+        }
+    }
+    
 }
 
 
@@ -108,7 +119,7 @@
 }
 
 - (void)postNotification:(NSString *) message{
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
     [GrowlApplicationBridge notifyWithTitle:appName
                                 description:message
                            notificationName:@"status"

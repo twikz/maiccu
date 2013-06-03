@@ -88,4 +88,28 @@ static TKZMaiccu *defaultMaiccu = nil;
 }
 
 
+- (NSString *)launchAgentPlistPath {
+    NSURL *libUrl = [[_fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[libUrl URLByAppendingPathComponent:[NSString stringWithFormat:@"LaunchAgents/%@.plist", [[NSBundle mainBundle] bundleIdentifier]]] path];
+}
+
+
+- (NSDictionary *)makeLaunchAgentPList {
+    return @{@"Label": [[NSBundle mainBundle] bundleIdentifier],
+             @"ProgramArguments": @[[[NSBundle mainBundle] executablePath], @"--start"],
+             @"RunAtLoad": @NO};
+}
+
+- (BOOL) setToLaunchAgent:(BOOL)value {
+    NSMutableDictionary *plist = [NSMutableDictionary dictionaryWithDictionary:[self makeLaunchAgentPList]];
+    plist[@"RunAtLoad"] = @(value);
+    return [plist writeToFile:[self launchAgentPlistPath] atomically:YES];
+}
+
+- (BOOL)isLaunchAgent {
+    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:[self launchAgentPlistPath]];
+    if (!plist)
+        return NO;
+    return [plist[@"RunAtLoad"] boolValue];
+}
 @end

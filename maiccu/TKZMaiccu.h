@@ -17,6 +17,10 @@
 - (NSString *)maiccuLogPath;
 - (BOOL) maiccuLogExists;
 
+- (NSString *)launchAgentPlistPath;
+- (BOOL)setToLaunchAgent:(BOOL)value;
+- (BOOL)isLaunchAgent;
+
 - (void)writeLogMessage:(NSString *)logMessage;
 
 + (id)defaultMaiccu;

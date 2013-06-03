@@ -544,7 +544,9 @@ struct TIC_Tunnel *tic_GetTunnel(struct TIC_conf *tic, const char *sId)
 		char ll[100];
 
 		/* Log that the fetch was succesful */
+#ifndef AICCU_PATCH
 		dolog(LOG_INFO, "Succesfully retrieved tunnel information for %s\n", sId);
+#endif
 
 		/*
 		 * Some TUN/TAP devices don't have any
